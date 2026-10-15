@@ -92,7 +92,7 @@ const Banner = () => {
             </Link>
 
             <Link
-              href="https://www.linkedin.com/"
+              href="https://www.linkedin.com/in/asifali62"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="LinkedIn profile"
