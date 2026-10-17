@@ -61,7 +61,7 @@ const Banner = () => {
           {/* Buttons */}
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <Link
-              href="#projects"
+              href="/projects"
               className="inline-flex items-center justify-center gap-2 rounded-xl bg-green-700 px-6 py-3.5 font-semibold text-white shadow-lg shadow-green-700/15 transition hover:-translate-y-1 hover:bg-green-800"
             >
               Explore My Projects
@@ -69,7 +69,7 @@ const Banner = () => {
             </Link>
 
             <Link
-              href="#contact"
+              href="/contact"
               className="inline-flex items-center justify-center gap-2 rounded-xl border border-gray-300 bg-white px-6 py-3.5 font-semibold text-gray-800 transition hover:-translate-y-1 hover:border-green-600 hover:text-green-700"
             >
               Let&apos;s Connect

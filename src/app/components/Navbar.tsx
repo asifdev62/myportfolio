@@ -1,19 +1,20 @@
-
-
 'use client';
 
 import Image from 'next/image';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { FaGithub } from 'react-icons/fa';
 import { GrLinkedinOption } from 'react-icons/gr';
 import { HiMenuAlt3, HiX } from 'react-icons/hi';
 
 const links = [
-    { label: 'About', href: '#about' },
-    { label: 'Projects', href: '#projects' },
-    { label: 'Skills', href: '#skills' },
-    { label: 'Resume', href: '/resume.pdf' },
-    { label: 'Contact', href: '#contact' },
+    { label: 'Home', href: '/' },
+    { label: 'About', href: '/about' },
+    { label: 'Projects', href: '/projects' },
+    { label: 'Skills', href: '/skills' },
+    { label: 'Resume', href: '/resume' },
+    { label: 'Contact', href: '/contact' },
 ];
 
 const socials = [
@@ -21,10 +22,15 @@ const socials = [
     { label: 'GitHub', href: 'https://github.com/asifdev62', Icon: FaGithub },
 ];
 
-
 const Navbar = () => {
+    const pathname = usePathname();
     const [open, setOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
+
+    const isActive = (href: string) =>
+        href === '/'
+            ? pathname === '/'
+            : pathname === href || pathname.startsWith(`${href}/`);
 
     useEffect(() => {
         const onScroll = () => setScrolled(window.scrollY > 8);
@@ -53,7 +59,7 @@ const Navbar = () => {
                 className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5 sm:px-8 "
             >
                 {/* Logo */}
-                <a href="#" className="flex items-center" aria-label="Home">
+                <Link href="/" className="flex items-center" aria-label="Home">
                     <Image
                         src="/logo.png"
                         alt="navlogo"
@@ -62,21 +68,31 @@ const Navbar = () => {
                         priority
                         className="h-12 w-auto sm:h-13"
                     />
-                </a>
+                </Link>
 
                 {/* Desktop links */}
-                <ul className="hidden items-center gap-8 md:flex">
-                    {links.map(({ label, href }) => (
-                        <li key={label}>
-                            <a
-                                href={href}
-                                className="group relative py-1 text-[15px] font-medium text-slate-300 transition-colors hover:text-white focus-visible:text-white focus-visible:outline-none"
-                            >
-                                {label}
-                                <span className="absolute inset-x-0 -bottom-0.5 h-0.5 origin-left scale-x-0 rounded-full bg-teal-400 transition-transform duration-300 group-hover:scale-x-100 group-focus-visible:scale-x-100" />
-                            </a>
-                        </li>
-                    ))}
+                <ul className="hidden items-center gap-6 md:flex lg:gap-8">
+                    {links.map(({ label, href }) => {
+                        const active = isActive(href);
+                        return (
+                            <li key={label}>
+                                <Link
+                                    href={href}
+                                    aria-current={active ? 'page' : undefined}
+                                    className={`group relative py-1 text-[15px] font-medium transition-colors hover:text-white focus-visible:text-white focus-visible:outline-none ${
+                                        active ? 'text-white' : 'text-slate-300'
+                                    }`}
+                                >
+                                    {label}
+                                    <span
+                                        className={`absolute inset-x-0 -bottom-0.5 h-0.5 origin-left rounded-full bg-teal-400 transition-transform duration-300 group-hover:scale-x-100 group-focus-visible:scale-x-100 ${
+                                            active ? 'scale-x-100' : 'scale-x-0'
+                                        }`}
+                                    />
+                                </Link>
+                            </li>
+                        );
+                    })}
                 </ul>
 
                 {/* Desktop socials */}
@@ -117,17 +133,23 @@ const Navbar = () => {
             >
                 <div className="overflow-hidden">
                     <ul className="flex flex-col gap-1 border-t border-white/10 bg-[#0F1019] px-5 py-4">
-                        {links.map(({ label, href }) => (
-                            <li key={label}>
-                                <a
-                                    href={href}
-                                    onClick={() => setOpen(false)}
-                                    className="block rounded-lg px-3 py-3 text-base font-medium text-slate-300 transition hover:bg-white/5 hover:text-teal-400"
-                                >
-                                    {label}
-                                </a>
-                            </li>
-                        ))}
+                        {links.map(({ label, href }) => {
+                            const active = isActive(href);
+                            return (
+                                <li key={label}>
+                                    <Link
+                                        href={href}
+                                        onClick={() => setOpen(false)}
+                                        aria-current={active ? 'page' : undefined}
+                                        className={`block rounded-lg px-3 py-3 text-base font-medium transition hover:bg-white/5 hover:text-teal-400 ${
+                                            active ? 'text-teal-400' : 'text-slate-300'
+                                        }`}
+                                    >
+                                        {label}
+                                    </Link>
+                                </li>
+                            );
+                        })}
                         <li className="mt-2 flex items-center gap-3 px-3 pt-3">
                             {socials.map(({ label, href, Icon }) => (
                                 <a
@@ -150,5 +172,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-
-

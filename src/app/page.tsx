@@ -1,12 +1,11 @@
-
 import Banner from "./components/Banner";
-import Navbar from "./components/Navbar";
+import LatestProjects from "./components/LatestProjects";
 
 export default function Home() {
   return (
     <div>
-      <Navbar />
-    <Banner />
+      <Banner />
+      <LatestProjects />
     </div>
   );
 }

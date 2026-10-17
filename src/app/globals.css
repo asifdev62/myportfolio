@@ -1,2 +1,14 @@
 @import "tailwindcss";
 
+/* Print: drop the site chrome so the résumé prints as a clean document. */
+@media print {
+  header,
+  footer {
+    display: none !important;
+  }
+
+  body {
+    background: #ffffff !important;
+  }
+}
+
