@@ -142,14 +142,17 @@ const Banner = () => {
             </div>
 
             {/* Floating Badge */}
-            <div className="absolute -left-3 top-8 rounded-xl border border-gray-100 bg-white px-4 py-3 shadow-lg sm:-left-6 sm:top-12">
-              <p className="text-sm font-bold text-gray-900">
+
+            {/* Floating Badge */}
+            <div className="absolute -left-2 top-6 rounded-lg border border-gray-100 bg-white px-2 py-1.5 shadow-lg sm:-left-6 sm:top-12 sm:rounded-xl sm:px-4 sm:py-3">
+              <p className="text-xs font-bold text-gray-900 sm:text-sm">
                 Clean Code
               </p>
-              <p className="mt-1 text-xs text-green-700">
+              <p className="mt-0.5 text-[10px] text-green-700 sm:mt-1 sm:text-xs">
                 Thoughtful Solutions
               </p>
             </div>
+
           </div>
         </div>
 
