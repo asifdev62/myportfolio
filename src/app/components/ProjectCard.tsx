@@ -26,7 +26,7 @@ export default function ProjectCard({
   return (
     <article className="group flex h-full flex-col overflow-hidden rounded-4xl border border-gray-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:border-green-300 hover:shadow-xl">
       {/* Screenshot header. Falls back to a monogram if a project has no image. */}
-      <div className="relative flex h-44 items-end justify-between overflow-hidden bg-gradient-to-br from-green-50 via-white to-green-50 p-6 sm:h-52">
+      <div className="relative flex h-44 items-end justify-between overflow-hidden bg-linear-to-br from-green-50 via-white to-green-50 p-6 sm:h-52">
         <div
           aria-hidden="true"
           className="absolute -right-8 -top-10 h-36 w-36 rounded-full bg-green-100/80 blur-2xl"
