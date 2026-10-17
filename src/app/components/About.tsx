@@ -42,17 +42,50 @@ export default function About() {
         <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
           {/* Profile photo */}
           <div className="mx-auto w-full max-w-md">
-            <div className="overflow-hidden rounded-4xl border border-gray-200 bg-white p-3 shadow-xl shadow-green-900/5">
-              <Image
-                src="/my.png"
-                alt="Portrait of Asif Ali"
-                width={720}
-                height={987}
-                priority
-                sizes="(min-width: 1024px) 28rem, 100vw"
-                className="h-auto w-full rounded-3xl object-cover"
-              />
-            </div>
+              <div className="order-1 flex justify-center lg:order-2 lg:justify-end">
+                      <div className="relative w-full max-w-[320px] sm:max-w-90.5 lg:max-w-112.5">
+            
+                        {/* Decorative Background */}
+                        <div className="absolute -right-3 -top-3 h-full w-full rounded-4xl border-2 border-green-600 sm:-right-5 sm:-top-5" />
+            
+                        <div className="relative overflow-hidden rounded-4xl bg-green-100 shadow-2xl shadow-green-900/10">
+                          <Image
+                            src="/my .jpg"
+                            alt="Asif Ali - Full-Stack Web Developer"
+                            width={600}
+                            height={700}
+                            priority
+                            className="h-87.5 w-full object-cover object-center sm:h-110 lg:h-130"
+                          />
+            
+                          {/* Image Caption */}
+                          <div className="absolute inset-x-3 bottom-3 flex items-center gap-3 rounded-2xl border border-white/50 bg-white/90 p-4 shadow-lg backdrop-blur-md sm:inset-x-4 sm:bottom-4">
+                            <div className="rounded-xl bg-green-100 p-3 text-green-700">
+                              <FiCode size={25} />
+                            </div>
+            
+                            <div>
+                              <p className="font-bold text-gray-900">
+                                Turning Ideas Into Code
+                              </p>
+                              <p className="mt-1 text-sm text-gray-600">
+                                Design · Develop · Deliver
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+            
+                        {/* Floating Badge */}
+                        <div className="absolute -left-3 top-8 rounded-xl border border-gray-100 bg-white px-4 py-3 shadow-lg sm:-left-6 sm:top-12">
+                          <p className="text-sm font-bold text-gray-900">
+                            Clean Code
+                          </p>
+                          <p className="mt-1 text-xs text-green-700">
+                            Thoughtful Solutions
+                          </p>
+                        </div>
+                      </div>
+                    </div>
           </div>
 
           {/* Introduction */}
