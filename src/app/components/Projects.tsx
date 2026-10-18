@@ -1,6 +1,7 @@
 import Link from "next/link";
 import SectionHeading from "./SectionHeading";
 import ProjectCard from "./ProjectCard";
+import Reveal from "./Reveal";
 import { projects } from "@/app/data/projects";
 import { FiArrowUpRight } from "react-icons/fi";
 
@@ -21,9 +22,11 @@ export default function Projects() {
           className="mb-12"
         />
 
-        <div className="grid gap-8 md:grid-cols-2">
-          {projects.map((project) => (
-            <ProjectCard key={project.slug} project={project} />
+        <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+          {projects.map((project, index) => (
+            <Reveal key={project.slug} delay={(index % 3) * 90} className="h-full">
+              <ProjectCard project={project} />
+            </Reveal>
           ))}
         </div>
 

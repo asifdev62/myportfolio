@@ -27,6 +27,14 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
+        {/* Keep scroll-reveal content visible when JavaScript is unavailable. */}
+        <noscript>
+          <style
+            dangerouslySetInnerHTML={{
+              __html: ".reveal{opacity:1 !important;transform:none !important}",
+            }}
+          />
+        </noscript>
         <Navbar />
         <main className="flex-1">{children}</main>
         <Footer />

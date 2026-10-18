@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { FaGithub } from "react-icons/fa";
+import type { IconType } from "react-icons";
+import { FaGithub, FaWhatsapp } from "react-icons/fa";
 import { GrLinkedinOption } from "react-icons/gr";
 import CopyrightYear from "./CopyrightYear";
 
@@ -11,7 +12,15 @@ const quickLinks = [
   { label: "Contact", href: "/contact" },
 ];
 
-const socials = [
+interface SocialLink {
+  label: string;
+  href: string;
+  Icon: IconType;
+  ariaLabel?: string;
+  title?: string;
+}
+
+const socials: SocialLink[] = [
   {
     label: "LinkedIn",
     href: "https://www.linkedin.com/in/asifali62",
@@ -21,6 +30,13 @@ const socials = [
     label: "GitHub",
     href: "https://github.com/asifdev62",
     Icon: FaGithub,
+  },
+  {
+    label: "WhatsApp",
+    ariaLabel: "Chat with me on WhatsApp",
+    title: "Chat with me on WhatsApp",
+    href: "https://wa.me/8801823059188",
+    Icon: FaWhatsapp,
   },
 ];
 
@@ -48,7 +64,7 @@ export default function Footer() {
               <li key={label}>
                 <Link
                   href={href}
-                  className="text-sm text-slate-400 transition hover:text-teal-400"
+                  className="rounded text-sm text-slate-400 transition hover:text-teal-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-400"
                 >
                   {label}
                 </Link>
@@ -62,13 +78,14 @@ export default function Footer() {
             Connect
           </h2>
           <div className="mt-4 flex items-center gap-3">
-            {socials.map(({ label, href, Icon }) => (
+            {socials.map(({ label, href, Icon, ariaLabel, title }) => (
               <a
                 key={label}
                 href={href}
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label={label}
+                aria-label={ariaLabel ?? label}
+                title={title}
                 className="flex h-11 w-11 items-center justify-center rounded-full border border-white/15 text-slate-300 transition hover:border-teal-400 hover:bg-teal-400 hover:text-[#0F1019] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-400"
               >
                 <Icon aria-hidden="true" className="text-lg" />

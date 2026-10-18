@@ -4,7 +4,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
-import { FaGithub } from 'react-icons/fa';
+import type { IconType } from 'react-icons';
+import { FaGithub, FaWhatsapp } from 'react-icons/fa';
 import { GrLinkedinOption } from 'react-icons/gr';
 import { HiMenuAlt3, HiX } from 'react-icons/hi';
 
@@ -17,9 +18,24 @@ const links = [
     { label: 'Contact', href: '/contact' },
 ];
 
-const socials = [
+interface SocialLink {
+    label: string;
+    href: string;
+    Icon: IconType;
+    ariaLabel?: string;
+    title?: string;
+}
+
+const socials: SocialLink[] = [
     { label: 'LinkedIn', href: 'https://www.linkedin.com/in/asifali62', Icon: GrLinkedinOption },
     { label: 'GitHub', href: 'https://github.com/asifdev62', Icon: FaGithub },
+    {
+        label: 'WhatsApp',
+        ariaLabel: 'Chat with me on WhatsApp',
+        title: 'Chat with me on WhatsApp',
+        href: 'https://wa.me/8801823059188',
+        Icon: FaWhatsapp,
+    },
 ];
 
 const Navbar = () => {
@@ -97,13 +113,14 @@ const Navbar = () => {
 
                 {/* Desktop socials */}
                 <div className="hidden items-center gap-3 md:flex">
-                    {socials.map(({ label, href, Icon }) => (
+                    {socials.map(({ label, href, Icon, ariaLabel, title }) => (
                         <a
                             key={label}
                             href={href}
                             target="_blank"
                             rel="noopener noreferrer"
-                            aria-label={label}
+                            aria-label={ariaLabel ?? label}
+                            title={title}
                             className="flex h-10 w-10 items-center justify-center rounded-full border border-white/15 text-slate-300 transition hover:border-teal-400 hover:bg-teal-400 hover:text-[#0F1019] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-400"
                         >
                             <Icon className="text-lg" />
@@ -118,7 +135,7 @@ const Navbar = () => {
                     aria-expanded={open}
                     aria-controls="mobile-menu"
                     aria-label={open ? 'Close menu' : 'Open menu'}
-                    className="flex h-10 w-10 items-center justify-center rounded-full text-2xl text-slate-200 transition hover:bg-white/10 md:hidden"
+                    className="flex h-10 w-10 items-center justify-center rounded-full text-2xl text-slate-200 transition hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-400 md:hidden"
                 >
                     {open ? <HiX /> : <HiMenuAlt3 />}
                 </button>
@@ -141,7 +158,7 @@ const Navbar = () => {
                                         href={href}
                                         onClick={() => setOpen(false)}
                                         aria-current={active ? 'page' : undefined}
-                                        className={`block rounded-lg px-3 py-3 text-base font-medium transition hover:bg-white/5 hover:text-teal-400 ${
+                                        className={`block rounded-lg px-3 py-3 text-base font-medium transition hover:bg-white/5 hover:text-teal-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-400 ${
                                             active ? 'text-teal-400' : 'text-slate-300'
                                         }`}
                                     >
@@ -151,13 +168,14 @@ const Navbar = () => {
                             );
                         })}
                         <li className="mt-2 flex items-center gap-3 px-3 pt-3">
-                            {socials.map(({ label, href, Icon }) => (
+                            {socials.map(({ label, href, Icon, ariaLabel, title }) => (
                                 <a
                                     key={label}
                                     href={href}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    aria-label={label}
+                                    aria-label={ariaLabel ?? label}
+                                    title={title}
                                     className="flex h-10 w-10 items-center justify-center rounded-full border border-white/15 text-slate-300 transition hover:border-teal-400 hover:bg-teal-400 hover:text-[#0F1019]"
                                 >
                                     <Icon className="text-lg" />

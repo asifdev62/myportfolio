@@ -1,4 +1,5 @@
 import SectionHeading from "./SectionHeading";
+import Reveal from "./Reveal";
 import { FaGraduationCap } from "react-icons/fa";
 
 export default function Education() {
@@ -17,7 +18,8 @@ export default function Education() {
           className="mb-12"
         />
 
-        <article className="relative flex flex-col gap-6 rounded-4xl border border-gray-200 bg-white p-6 shadow-sm transition hover:border-green-300 hover:shadow-lg sm:flex-row sm:items-start sm:p-8">
+        <Reveal>
+          <article className="relative flex flex-col gap-6 rounded-4xl border border-gray-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:border-green-300 hover:shadow-lg sm:flex-row sm:items-start sm:p-8">
           <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-green-700 text-2xl text-white shadow-lg shadow-green-700/20">
             <FaGraduationCap aria-hidden="true" />
           </span>
@@ -42,7 +44,8 @@ export default function Education() {
               Institution: Asian University of Bangladesh
             </p>
           </div>
-        </article>
+          </article>
+        </Reveal>
       </div>
     </section>
   );

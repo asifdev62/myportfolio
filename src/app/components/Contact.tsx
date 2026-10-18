@@ -2,9 +2,11 @@
 
 import { useId, useState } from "react";
 import type { FormEvent } from "react";
+import type { IconType } from "react-icons";
 import { FiMail, FiMapPin, FiPhone, FiSend } from "react-icons/fi";
-import { FaGithub } from "react-icons/fa";
+import { FaGithub, FaWhatsapp } from "react-icons/fa";
 import { GrLinkedinOption } from "react-icons/gr";
+import Reveal from "./Reveal";
 
 const CONTACT_EMAIL = "asif62n@gmail.com";
 const CONTACT_PHONE = "01823059188";
@@ -30,7 +32,15 @@ const channels = [
   },
 ];
 
-const socials = [
+interface SocialLink {
+  label: string;
+  href: string;
+  Icon: IconType;
+  ariaLabel?: string;
+  title?: string;
+}
+
+const socials: SocialLink[] = [
   {
     label: "LinkedIn",
     href: "https://www.linkedin.com/in/asifali62",
@@ -40,6 +50,13 @@ const socials = [
     label: "GitHub",
     href: "https://github.com/asifdev62",
     Icon: FaGithub,
+  },
+  {
+    label: "WhatsApp",
+    ariaLabel: "Chat with me on WhatsApp",
+    title: "Chat with me on WhatsApp",
+    href: "https://wa.me/8801823059188",
+    Icon: FaWhatsapp,
   },
 ];
 
@@ -99,8 +116,14 @@ export default function Contact() {
     );
   }
 
-  const inputClass =
-    "w-full rounded-xl border bg-white px-4 py-3 text-sm text-gray-900 placeholder:text-gray-400 transition focus:outline-none focus:ring-2 focus:ring-green-600/40";
+  const inputBase =
+    "w-full rounded-xl border bg-white px-4 py-3 text-sm text-gray-900 placeholder:text-gray-400 transition focus:outline-none focus:ring-2";
+
+  function inputState(hasError?: string) {
+    return hasError
+      ? "border-red-400 focus:border-red-500 focus:ring-red-500/30"
+      : "border-gray-300 focus:border-green-600 focus:ring-green-600/40";
+  }
 
   return (
     <section
@@ -110,7 +133,7 @@ export default function Contact() {
     >
       <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-2 lg:gap-16">
         {/* Left: invitation and contact details */}
-        <div>
+        <Reveal>
           <p className="text-sm font-semibold uppercase tracking-[0.25em] text-green-700">
             Contact
           </p>
@@ -133,9 +156,9 @@ export default function Contact() {
                 {href ? (
                   <a
                     href={href}
-                    className="flex items-center gap-4 rounded-2xl border border-gray-200 bg-[#fafbf9] p-5 transition hover:-translate-y-0.5 hover:border-green-300 hover:shadow-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-700"
+                    className="group flex items-center gap-4 rounded-2xl border border-gray-200 bg-[#fafbf9] p-5 transition hover:-translate-y-0.5 hover:border-green-300 hover:shadow-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-700"
                   >
-                    <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-green-100 text-xl text-green-700">
+                    <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-green-100 text-xl text-green-700 transition-transform duration-300 group-hover:-translate-y-0.5">
                       <Icon aria-hidden="true" />
                     </span>
                     <span>
@@ -167,140 +190,141 @@ export default function Contact() {
           </ul>
 
           <div className="mt-6 flex items-center gap-3">
-            {socials.map(({ label, href, Icon }) => (
+            {socials.map(({ label, href, Icon, ariaLabel, title }) => (
               <a
                 key={label}
                 href={href}
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label={label}
-                className="flex h-11 w-11 items-center justify-center rounded-xl border border-gray-300 bg-white text-lg text-gray-700 transition hover:-translate-y-0.5 hover:border-green-600 hover:text-green-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-700"
+                aria-label={ariaLabel ?? label}
+                title={title}
+                className="flex h-11 w-11 items-center justify-center rounded-xl border border-gray-300 bg-white text-lg text-gray-700 transition hover:-translate-y-0.5 hover:border-green-600 hover:bg-green-50 hover:text-green-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-700"
               >
                 <Icon aria-hidden="true" />
               </a>
             ))}
           </div>
-        </div>
+        </Reveal>
 
         {/* Right: contact form */}
-        <form
-          onSubmit={handleSubmit}
-          noValidate
-          className="rounded-4xl border border-gray-200 bg-[#fafbf9] p-6 shadow-sm sm:p-8"
-        >
-          <div className="space-y-5">
-            <div>
-              <label
-                htmlFor={nameId}
-                className="mb-2 block text-sm font-semibold text-gray-800"
-              >
-                Full Name
-              </label>
-              <input
-                id={nameId}
-                name="name"
-                type="text"
-                autoComplete="name"
-                value={values.name}
-                onChange={(event) => update("name", event.target.value)}
-                aria-invalid={errors.name ? true : undefined}
-                aria-describedby={errors.name ? `${nameId}-error` : undefined}
-                className={`${inputClass} ${
-                  errors.name ? "border-red-400" : "border-gray-300"
-                }`}
-                placeholder="Your name"
-              />
-              {errors.name ? (
-                <p
-                  id={`${nameId}-error`}
-                  className="mt-2 text-sm font-medium text-red-600"
-                >
-                  {errors.name}
-                </p>
-              ) : null}
-            </div>
-
-            <div>
-              <label
-                htmlFor={emailId}
-                className="mb-2 block text-sm font-semibold text-gray-800"
-              >
-                Email Address
-              </label>
-              <input
-                id={emailId}
-                name="email"
-                type="email"
-                autoComplete="email"
-                value={values.email}
-                onChange={(event) => update("email", event.target.value)}
-                aria-invalid={errors.email ? true : undefined}
-                aria-describedby={errors.email ? `${emailId}-error` : undefined}
-                className={`${inputClass} ${
-                  errors.email ? "border-red-400" : "border-gray-300"
-                }`}
-                placeholder="you@example.com"
-              />
-              {errors.email ? (
-                <p
-                  id={`${emailId}-error`}
-                  className="mt-2 text-sm font-medium text-red-600"
-                >
-                  {errors.email}
-                </p>
-              ) : null}
-            </div>
-
-            <div>
-              <label
-                htmlFor={messageId}
-                className="mb-2 block text-sm font-semibold text-gray-800"
-              >
-                Message
-              </label>
-              <textarea
-                id={messageId}
-                name="message"
-                rows={5}
-                value={values.message}
-                onChange={(event) => update("message", event.target.value)}
-                aria-invalid={errors.message ? true : undefined}
-                aria-describedby={
-                  errors.message ? `${messageId}-error` : undefined
-                }
-                className={`${inputClass} resize-y ${
-                  errors.message ? "border-red-400" : "border-gray-300"
-                }`}
-                placeholder="Tell me about your project or question"
-              />
-              {errors.message ? (
-                <p
-                  id={`${messageId}-error`}
-                  className="mt-2 text-sm font-medium text-red-600"
-                >
-                  {errors.message}
-                </p>
-              ) : null}
-            </div>
-          </div>
-
-          <button
-            type="submit"
-            className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-green-700 px-6 py-3.5 text-sm font-semibold text-white shadow-lg shadow-green-700/15 transition hover:-translate-y-0.5 hover:bg-green-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-700 sm:w-auto"
+        <Reveal delay={120}>
+          <form
+            onSubmit={handleSubmit}
+            noValidate
+            className="rounded-4xl border border-gray-200 bg-[#fafbf9] p-6 shadow-sm sm:p-8"
           >
-            <FiSend aria-hidden="true" size={18} />
-            Submit Message
-          </button>
+            <div className="space-y-5">
+              <div>
+                <label
+                  htmlFor={nameId}
+                  className="mb-2 block text-sm font-semibold text-gray-800"
+                >
+                  Full Name
+                </label>
+                <input
+                  id={nameId}
+                  name="name"
+                  type="text"
+                  autoComplete="name"
+                  value={values.name}
+                  onChange={(event) => update("name", event.target.value)}
+                  aria-invalid={errors.name ? true : undefined}
+                  aria-describedby={errors.name ? `${nameId}-error` : undefined}
+                  className={`${inputBase} ${inputState(errors.name)}`}
+                  placeholder="Your name"
+                />
+                {errors.name ? (
+                  <p
+                    id={`${nameId}-error`}
+                    className="mt-2 text-sm font-medium text-red-600"
+                  >
+                    {errors.name}
+                  </p>
+                ) : null}
+              </div>
 
-          {status ? (
-            <p
-              role="status"
-              className="mt-4 rounded-xl border border-green-200 bg-white p-4 text-sm leading-6 text-gray-700"
+              <div>
+                <label
+                  htmlFor={emailId}
+                  className="mb-2 block text-sm font-semibold text-gray-800"
+                >
+                  Email Address
+                </label>
+                <input
+                  id={emailId}
+                  name="email"
+                  type="email"
+                  autoComplete="email"
+                  value={values.email}
+                  onChange={(event) => update("email", event.target.value)}
+                  aria-invalid={errors.email ? true : undefined}
+                  aria-describedby={
+                    errors.email ? `${emailId}-error` : undefined
+                  }
+                  className={`${inputBase} ${inputState(errors.email)}`}
+                  placeholder="you@example.com"
+                />
+                {errors.email ? (
+                  <p
+                    id={`${emailId}-error`}
+                    className="mt-2 text-sm font-medium text-red-600"
+                  >
+                    {errors.email}
+                  </p>
+                ) : null}
+              </div>
+
+              <div>
+                <label
+                  htmlFor={messageId}
+                  className="mb-2 block text-sm font-semibold text-gray-800"
+                >
+                  Message
+                </label>
+                <textarea
+                  id={messageId}
+                  name="message"
+                  rows={5}
+                  value={values.message}
+                  onChange={(event) => update("message", event.target.value)}
+                  aria-invalid={errors.message ? true : undefined}
+                  aria-describedby={
+                    errors.message ? `${messageId}-error` : undefined
+                  }
+                  className={`${inputBase} resize-y ${inputState(
+                    errors.message,
+                  )}`}
+                  placeholder="Tell me about your project or question"
+                />
+                {errors.message ? (
+                  <p
+                    id={`${messageId}-error`}
+                    className="mt-2 text-sm font-medium text-red-600"
+                  >
+                    {errors.message}
+                  </p>
+                ) : null}
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-green-700 px-6 py-3.5 text-sm font-semibold text-white shadow-lg shadow-green-700/15 transition hover:-translate-y-0.5 hover:bg-green-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-700 active:translate-y-0 sm:w-auto"
             >
-              {status}
-            </p>
-          ) : null}
-        </form>
+              <FiSend aria-hidden="true" size={18} />
+              Submit Message
+            </button>
+
+            {status ? (
+              <p
+                role="status"
+                className="mt-4 rounded-xl border border-green-200 bg-white p-4 text-sm leading-6 text-gray-700"
+              >
+                {status}
+              </p>
+            ) : null}
+          </form>
+        </Reveal>
       </div>
     </section>
   );

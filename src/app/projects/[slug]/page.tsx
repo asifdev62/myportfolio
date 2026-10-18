@@ -15,6 +15,7 @@ import {
   projects,
 } from "@/app/data/projects";
 import ProjectCard from "@/app/components/ProjectCard";
+import Reveal from "@/app/components/Reveal";
 
 export function generateStaticParams() {
   return projects.map((project) => ({ slug: project.slug }));
@@ -229,9 +230,11 @@ export default async function ProjectDetailsPage(
             More of the work I&apos;ve built.
           </p>
 
-          <div className="mt-10 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {relatedProjects.map((related) => (
-              <ProjectCard key={related.slug} project={related} />
+          <div className="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+            {relatedProjects.map((related, index) => (
+              <Reveal key={related.slug} delay={index * 90} className="h-full">
+                <ProjectCard project={related} />
+              </Reveal>
             ))}
           </div>
 

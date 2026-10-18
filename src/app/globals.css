@@ -1,5 +1,12 @@
 @import "tailwindcss";
 
+/* Shared motion tokens so every animation uses the same rhythm. */
+:root {
+  --ease-soft: cubic-bezier(0.22, 1, 0.36, 1);
+  --reveal-duration: 600ms;
+  --reveal-delay: 0ms;
+}
+
 /* Print: drop the site chrome so the résumé prints as a clean document. */
 @media print {
   header,
@@ -12,3 +19,90 @@
   }
 }
 
+/* ------------------------------------------------------------------ */
+/* Entrance / scroll-reveal animations (transform + opacity only)     */
+/* ------------------------------------------------------------------ */
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes pulse-soft {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(0.82);
+  }
+}
+
+/* Hero / page entrance: plays once on load, staggered via --reveal-delay. */
+.animate-fade-up {
+  animation: fade-up 700ms var(--ease-soft) both;
+  animation-delay: var(--reveal-delay);
+}
+
+.animate-scale-in {
+  animation: scale-in 800ms var(--ease-soft) both;
+  animation-delay: var(--reveal-delay);
+}
+
+/* Slower, softer loop for the availability dot. */
+.animate-pulse-soft {
+  animation: pulse-soft 2.4s var(--ease-soft) infinite;
+}
+
+/* Scroll reveal: hidden until the observer marks the wrapper visible.
+   A <noscript> fallback in layout.tsx shows it when JavaScript is off. */
+.reveal {
+  opacity: 0;
+  transform: translateY(22px);
+}
+
+.reveal[data-visible="true"] {
+  animation: fade-up var(--reveal-duration) var(--ease-soft) both;
+  animation-delay: var(--reveal-delay);
+}
+
+/* Respect users who prefer reduced motion: reveal everything immediately. */
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-up,
+  .animate-scale-in,
+  .animate-pulse-soft,
+  .reveal,
+  .reveal[data-visible="true"] {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { FiArrowUpRight } from "react-icons/fi";
 import SectionHeading from "./SectionHeading";
 import ProjectCard from "./ProjectCard";
+import Reveal from "./Reveal";
 import { latestProjects } from "@/app/data/projects";
 
 export default function LatestProjects() {
@@ -19,9 +20,17 @@ export default function LatestProjects() {
           className="mb-12"
         />
 
-        <div className="grid gap-8 lg:grid-cols-2">
-          {latestProjects.map((project) => (
-            <ProjectCard key={project.slug} project={project} featured />
+        {/* Centered flex tracks mirror the Projects grid columns so the
+            featured cards keep the exact same size; a partial row centers. */}
+        <div className="flex flex-wrap justify-center gap-6">
+          {latestProjects.map((project, index) => (
+            <Reveal
+              key={project.slug}
+              delay={(index % 3) * 90}
+              className="h-full w-full md:w-[calc(50%_-_0.75rem)] xl:w-[calc(33.333%_-_1rem)]"
+            >
+              <ProjectCard project={project} featured />
+            </Reveal>
           ))}
         </div>
 

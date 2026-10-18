@@ -1,4 +1,5 @@
 import SectionHeading from "./SectionHeading";
+import Reveal from "./Reveal";
 import { FiCode, FiLayers, FiServer, FiTool } from "react-icons/fi";
 import type { IconType } from "react-icons";
 
@@ -68,32 +69,33 @@ export default function Skills() {
         />
 
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-          {categories.map(({ title, description, Icon, skills }) => (
-            <article
-              key={title}
-              className="flex h-full flex-col rounded-4xl border border-gray-200 bg-white p-6 transition hover:-translate-y-1 hover:border-green-300 hover:shadow-lg sm:p-7"
-            >
-              <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-green-100 text-2xl text-green-700">
-                <Icon aria-hidden="true" />
-              </span>
+          {categories.map(({ title, description, Icon, skills }, index) => (
+            <Reveal key={title} delay={(index % 4) * 80} className="h-full">
+              <article className="group flex h-full flex-col rounded-4xl border border-gray-200 bg-white p-6 transition hover:-translate-y-1 hover:border-green-300 hover:shadow-lg sm:p-7">
+                <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-green-100 text-2xl text-green-700 transition-transform duration-300 group-hover:-translate-y-0.5">
+                  <Icon aria-hidden="true" />
+                </span>
 
-              <h3 className="mt-5 text-lg font-bold text-gray-900">{title}</h3>
+                <h3 className="mt-5 text-lg font-bold text-gray-900">
+                  {title}
+                </h3>
 
-              <p className="mt-2 text-sm leading-7 text-gray-600">
-                {description}
-              </p>
+                <p className="mt-2 text-sm leading-7 text-gray-600">
+                  {description}
+                </p>
 
-              <ul className="mt-5 flex flex-wrap gap-2">
-                {skills.map((skill) => (
-                  <li
-                    key={skill}
-                    className="rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-xs font-medium text-gray-700"
-                  >
-                    {skill}
-                  </li>
-                ))}
-              </ul>
-            </article>
+                <ul className="mt-5 flex flex-wrap gap-2">
+                  {skills.map((skill) => (
+                    <li
+                      key={skill}
+                      className="rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-xs font-medium text-gray-700 transition hover:border-green-300 hover:text-green-700"
+                    >
+                      {skill}
+                    </li>
+                  ))}
+                </ul>
+              </article>
+            </Reveal>
           ))}
         </div>
       </div>

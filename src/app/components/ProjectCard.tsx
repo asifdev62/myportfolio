@@ -26,7 +26,7 @@ export default function ProjectCard({
   return (
     <article className="group flex h-full flex-col overflow-hidden rounded-4xl border border-gray-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:border-green-300 hover:shadow-xl">
       {/* Screenshot header. Falls back to a monogram if a project has no image. */}
-      <div className="relative flex h-44 items-end justify-between overflow-hidden bg-linear-to-br from-green-50 via-white to-green-50 p-6 sm:h-52">
+      <div className="relative flex aspect-video items-end justify-between overflow-hidden bg-linear-to-br from-green-50 via-white to-green-50 p-5">
         <div
           aria-hidden="true"
           className="absolute -right-8 -top-10 h-36 w-36 rounded-full bg-green-100/80 blur-2xl"
@@ -41,11 +41,11 @@ export default function ProjectCard({
             src={project.image}
             alt={`${project.name} project preview`}
             fill
-            sizes="(min-width: 1024px) 40rem, 100vw"
-            className="object-cover object-top transition-transform duration-500 ease-out group-hover:scale-[1.03]"
+            sizes="(min-width: 1280px) 33vw, (min-width: 768px) 50vw, 100vw"
+            className="object-cover object-top transition-transform duration-700 ease-out group-hover:scale-[1.04]"
           />
         ) : (
-          <span className="relative flex h-14 w-14 items-center justify-center rounded-2xl bg-green-700 text-lg font-bold text-white shadow-lg shadow-green-700/20">
+          <span className="relative flex h-12 w-12 items-center justify-center rounded-2xl bg-green-700 text-lg font-bold text-white shadow-lg shadow-green-700/20">
             {getMonogram(project.name)}
           </span>
         )}
@@ -55,8 +55,8 @@ export default function ProjectCard({
         </span>
       </div>
 
-      <div className="flex flex-1 flex-col p-6 sm:p-7">
-        <h3 className="text-xl font-bold tracking-tight text-gray-900 sm:text-2xl">
+      <div className="flex flex-1 flex-col p-5 sm:p-6">
+        <h3 className="text-lg font-bold tracking-tight text-gray-900 sm:text-xl">
           {project.name}
         </h3>
 
@@ -66,11 +66,11 @@ export default function ProjectCard({
           </p>
         ) : null}
 
-        <p className="mt-3 flex-1 text-sm leading-7 text-gray-600 sm:text-base">
+        <p className="mt-2 flex-1 text-sm leading-6 text-gray-600">
           {project.tagline}
         </p>
 
-        <ul className="mt-5 flex flex-wrap gap-2">
+        <ul className="mt-4 flex flex-wrap gap-2">
           {project.tech.map((tech) => (
             <li
               key={tech}
@@ -81,23 +81,23 @@ export default function ProjectCard({
           ))}
         </ul>
 
-        <div className="mt-6 flex flex-wrap items-center gap-3">
+        <div className="mt-5 flex flex-wrap items-center gap-2.5">
           <Link
             href={`/projects/${project.slug}`}
-            className="inline-flex items-center justify-center gap-2 rounded-xl bg-green-700 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-green-700/15 transition hover:-translate-y-0.5 hover:bg-green-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-700"
+            className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-green-700 px-4 py-2.5 text-sm font-semibold text-white shadow-lg shadow-green-700/15 transition hover:-translate-y-0.5 hover:bg-green-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-700"
           >
             View Details
-            <FiArrowUpRight aria-hidden="true" size={18} />
+            <FiArrowUpRight aria-hidden="true" size={17} />
           </Link>
 
           <a
             href={project.liveUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center justify-center gap-2 rounded-xl border border-gray-300 bg-white px-5 py-3 text-sm font-semibold text-gray-800 transition hover:-translate-y-0.5 hover:border-green-600 hover:text-green-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-700"
+            className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-gray-300 bg-white px-4 py-2.5 text-sm font-semibold text-gray-800 transition hover:-translate-y-0.5 hover:border-green-600 hover:text-green-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-700"
           >
             Live Demo
-            <FiArrowUpRight aria-hidden="true" size={18} />
+            <FiArrowUpRight aria-hidden="true" size={17} />
           </a>
 
           <a
@@ -105,7 +105,7 @@ export default function ProjectCard({
             target="_blank"
             rel="noopener noreferrer"
             aria-label={`${project.name} GitHub repository`}
-            className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-gray-300 bg-white text-lg text-gray-700 transition hover:-translate-y-0.5 hover:border-green-600 hover:text-green-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-700"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-gray-300 bg-white text-lg text-gray-700 transition hover:-translate-y-0.5 hover:border-green-600 hover:text-green-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-700"
           >
             <FiGithub aria-hidden="true" />
           </a>

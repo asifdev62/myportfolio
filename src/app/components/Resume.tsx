@@ -7,7 +7,8 @@ import {
   FiMapPin,
   FiPhone,
 } from "react-icons/fi";
-import { FaGithub } from "react-icons/fa";
+import type { IconType } from "react-icons";
+import { FaGithub, FaWhatsapp } from "react-icons/fa";
 import { GrLinkedinOption } from "react-icons/gr";
 import { projects } from "@/app/data/projects";
 
@@ -35,7 +36,15 @@ const contactDetails = [
   },
 ];
 
-const socials = [
+interface SocialLink {
+  label: string;
+  href: string;
+  Icon: IconType;
+  ariaLabel?: string;
+  title?: string;
+}
+
+const socials: SocialLink[] = [
   {
     label: "LinkedIn",
     href: "https://www.linkedin.com/in/asifali62",
@@ -45,6 +54,13 @@ const socials = [
     label: "GitHub",
     href: "https://github.com/asifdev62",
     Icon: FaGithub,
+  },
+  {
+    label: "WhatsApp",
+    ariaLabel: "Chat with me on WhatsApp",
+    title: "Chat with me on WhatsApp",
+    href: "https://wa.me/8801823059188",
+    Icon: FaWhatsapp,
   },
 ];
 
@@ -206,13 +222,14 @@ export default function Resume() {
               </ul>
 
               <div className="mt-4 flex items-center gap-2 sm:justify-end">
-                {socials.map(({ label, href, Icon }) => (
+                {socials.map(({ label, href, Icon, ariaLabel, title }) => (
                   <a
                     key={label}
                     href={href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    aria-label={label}
+                    aria-label={ariaLabel ?? label}
+                    title={title}
                     className="flex h-9 w-9 items-center justify-center rounded-xl border border-gray-300 bg-white text-base text-gray-700 transition hover:-translate-y-0.5 hover:border-green-600 hover:text-green-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-700"
                   >
                     <Icon aria-hidden="true" />
