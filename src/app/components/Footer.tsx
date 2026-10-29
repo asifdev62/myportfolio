@@ -42,21 +42,23 @@ const socials: SocialLink[] = [
 
 export default function Footer() {
   return (
-    <footer className="mt-auto bg-[#0F1019] px-5 py-14 text-slate-300 sm:px-8 lg:px-12">
+    <footer className="mt-auto bg-ink px-5 py-14 text-white/60 sm:px-8 lg:px-12">
       <div className="mx-auto grid max-w-7xl gap-10 sm:grid-cols-2 lg:grid-cols-3">
         <div>
-          <p className="text-lg font-bold text-white">Asif Ali</p>
-          <p className="mt-1 text-sm font-medium text-teal-400">
+          <p className="font-display text-2xl leading-none text-white">
+            Asif Ali
+          </p>
+          <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.18em] text-accent-soft">
             Full-Stack Web Developer
           </p>
-          <p className="mt-4 max-w-xs text-sm leading-7 text-slate-400">
+          <p className="mt-4 max-w-xs text-sm leading-7 text-white/50">
             Building modern, responsive, and user-focused web applications with
             clean code and thoughtful design.
           </p>
         </div>
 
         <nav aria-label="Footer">
-          <h2 className="text-sm font-semibold uppercase tracking-wide text-white">
+          <h2 className="font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-white">
             Quick links
           </h2>
           <ul className="mt-4 space-y-2">
@@ -64,7 +66,7 @@ export default function Footer() {
               <li key={label}>
                 <Link
                   href={href}
-                  className="rounded text-sm text-slate-400 transition hover:text-teal-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-400"
+                  className="rounded text-sm text-white/50 transition hover:text-accent-soft focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-soft"
                 >
                   {label}
                 </Link>
@@ -74,7 +76,7 @@ export default function Footer() {
         </nav>
 
         <div>
-          <h2 className="text-sm font-semibold uppercase tracking-wide text-white">
+          <h2 className="font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-white">
             Connect
           </h2>
           <div className="mt-4 flex items-center gap-3">
@@ -86,18 +88,20 @@ export default function Footer() {
                 rel="noopener noreferrer"
                 aria-label={ariaLabel ?? label}
                 title={title}
-                className="flex h-11 w-11 items-center justify-center rounded-full border border-white/15 text-slate-300 transition hover:border-teal-400 hover:bg-teal-400 hover:text-[#0F1019] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-400"
+                className="flex h-11 w-11 items-center justify-center rounded-full border border-white/15 text-white/70 transition duration-200 ease-out-quint hover:border-accent-soft hover:bg-accent-soft hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-soft"
               >
                 <Icon aria-hidden="true" className="text-lg" />
               </a>
             ))}
           </div>
-          <p className="mt-4 text-sm text-slate-400">Mirpur, Dhaka, Bangladesh</p>
+          <p className="mt-4 text-sm text-white/50">
+            Mirpur, Dhaka, Bangladesh
+          </p>
         </div>
       </div>
 
       <div className="mx-auto mt-12 max-w-7xl border-t border-white/10 pt-6">
-        <p className="text-sm text-slate-400">
+        <p className="text-sm text-white/50">
           &copy; <CopyrightYear /> Asif Ali. All rights reserved.
         </p>
       </div>

@@ -2,6 +2,7 @@ import SectionHeading from "./SectionHeading";
 import Reveal from "./Reveal";
 import { FiCode, FiLayers, FiServer, FiTool } from "react-icons/fi";
 import type { IconType } from "react-icons";
+import { sectionPadding } from "@/app/lib/styles";
 
 interface SkillCategory {
   title: string;
@@ -56,7 +57,7 @@ export default function Skills() {
     <section
       id="skills"
       aria-labelledby="skills-heading"
-      className="scroll-mt-24 bg-[#fafbf9] px-5 py-16 sm:px-8 sm:py-20 lg:px-12 lg:py-24"
+      className={`scroll-mt-24 bg-surface ${sectionPadding}`}
     >
       <div className="mx-auto max-w-7xl">
         <SectionHeading
@@ -68,36 +69,35 @@ export default function Skills() {
           className="mb-12"
         />
 
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-          {categories.map(({ title, description, Icon, skills }, index) => (
-            <Reveal key={title} delay={(index % 4) * 80} className="h-full">
-              <article className="group flex h-full flex-col rounded-4xl border border-gray-200 bg-white p-6 transition hover:-translate-y-1 hover:border-green-300 hover:shadow-lg sm:p-7">
-                <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-green-100 text-2xl text-green-700 transition-transform duration-300 group-hover:-translate-y-0.5">
-                  <Icon aria-hidden="true" />
-                </span>
+        <Reveal group className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+          {categories.map(({ title, description, Icon, skills }) => (
+            <article
+              key={title}
+              className="group flex h-full flex-col rounded-3xl border border-line bg-white p-6 transition duration-[400ms] ease-out-quint hover:-translate-y-1 hover:border-accent/30 hover:shadow-[0_28px_60px_-32px_rgba(20,22,16,0.35)] sm:p-7"
+            >
+              <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-accent-soft text-2xl text-accent transition-transform duration-300 ease-out-quint group-hover:-translate-y-0.5">
+                <Icon aria-hidden="true" />
+              </span>
 
-                <h3 className="mt-5 text-lg font-bold text-gray-900">
-                  {title}
-                </h3>
+              <h3 className="mt-5 text-lg font-semibold text-ink">{title}</h3>
 
-                <p className="mt-2 text-sm leading-7 text-gray-600">
-                  {description}
-                </p>
+              <p className="mt-2 text-sm leading-7 text-muted">
+                {description}
+              </p>
 
-                <ul className="mt-5 flex flex-wrap gap-2">
-                  {skills.map((skill) => (
-                    <li
-                      key={skill}
-                      className="rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-xs font-medium text-gray-700 transition hover:border-green-300 hover:text-green-700"
-                    >
-                      {skill}
-                    </li>
-                  ))}
-                </ul>
-              </article>
-            </Reveal>
+              <ul className="mt-5 flex flex-wrap gap-2">
+                {skills.map((skill) => (
+                  <li
+                    key={skill}
+                    className="rounded-lg border border-line bg-surface px-3 py-1.5 text-xs font-medium text-ink-soft transition duration-200 hover:border-accent/30 hover:text-accent"
+                  >
+                    {skill}
+                  </li>
+                ))}
+              </ul>
+            </article>
           ))}
-        </div>
+        </Reveal>
       </div>
     </section>
   );

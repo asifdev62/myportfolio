@@ -27,20 +27,21 @@ export default function SectionHeading({
   return (
     <div className={`flex max-w-2xl flex-col gap-4 ${alignment} ${className}`}>
       {eyebrow ? (
-        <p className="text-sm font-semibold uppercase tracking-[0.25em] text-green-700">
-          {eyebrow}
-        </p>
+        <div className="flex items-center gap-3">
+          <span aria-hidden="true" className="h-px w-8 bg-accent/40" />
+          <p className="eyebrow">{eyebrow}</p>
+        </div>
       ) : null}
 
       <Heading
         id={id}
-        className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl"
+        className="font-display text-[clamp(2.1rem,4vw,3.25rem)] leading-[1.02] tracking-[-0.02em] text-ink"
       >
         {title}
       </Heading>
 
       {description ? (
-        <p className="text-base leading-8 text-gray-600 sm:text-lg">
+        <p className="text-base leading-8 text-muted sm:text-lg">
           {description}
         </p>
       ) : null}

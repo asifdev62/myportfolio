@@ -1,4 +1,3 @@
-import Link from "next/link";
 import {
   FiArrowUpRight,
   FiCode,
@@ -8,6 +7,8 @@ import {
 } from "react-icons/fi";
 import ProfilePortrait from "./ProfilePortrait";
 import Reveal from "./Reveal";
+import { ButtonLink } from "./ui/Button";
+import { buttonArrow, sectionPadding } from "@/app/lib/styles";
 
 const facts = [
   {
@@ -37,7 +38,7 @@ export default function About() {
     <section
       id="about"
       aria-labelledby="about-heading"
-      className="scroll-mt-24 bg-[#fafbf9] px-5 py-16 sm:px-8 sm:py-20 lg:px-12 lg:py-24"
+      className={`scroll-mt-24 bg-surface ${sectionPadding}`}
     >
       <div className="mx-auto max-w-7xl">
         <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
@@ -51,18 +52,19 @@ export default function About() {
           {/* Introduction */}
           <div>
             <Reveal>
-              <p className="text-sm font-semibold uppercase tracking-[0.25em] text-green-700">
-                About me
-              </p>
+              <div className="flex items-center gap-3">
+                <span aria-hidden="true" className="h-px w-8 bg-accent/40" />
+                <p className="eyebrow">About me</p>
+              </div>
 
               <h1
                 id="about-heading"
-                className="mt-4 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl"
+                className="mt-5 font-display text-[clamp(2.2rem,4.5vw,3.5rem)] leading-[1.02] tracking-[-0.02em] text-ink"
               >
                 Building practical, user-focused web applications
               </h1>
 
-              <div className="mt-6 space-y-5 text-base leading-8 text-gray-600 sm:text-lg">
+              <div className="mt-6 space-y-5 text-base leading-8 text-muted sm:text-lg">
                 <p>
                   I&apos;m Asif Ali, a dedicated Full-Stack Web Developer
                   passionate about building modern, responsive, and
@@ -83,36 +85,40 @@ export default function About() {
                 </p>
               </div>
 
-              <Link
-                href="/projects"
-                className="mt-8 inline-flex items-center justify-center gap-2 rounded-xl bg-green-700 px-6 py-3.5 text-sm font-semibold text-white shadow-lg shadow-green-700/15 transition hover:-translate-y-0.5 hover:bg-green-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-700"
-              >
+              <ButtonLink href="/projects" className="mt-8">
                 View my projects
-                <FiArrowUpRight aria-hidden="true" size={18} />
-              </Link>
+                <FiArrowUpRight
+                  aria-hidden="true"
+                  className={buttonArrow}
+                  size={18}
+                />
+              </ButtonLink>
             </Reveal>
           </div>
         </div>
 
-        <dl className="mt-12 grid gap-4 sm:grid-cols-2 lg:mt-16 lg:grid-cols-4">
-          {facts.map(({ label, value, Icon }, index) => (
-            <Reveal
+        <Reveal
+          as="dl"
+          group
+          className="mt-12 grid gap-4 sm:grid-cols-2 lg:mt-16 lg:grid-cols-4"
+        >
+          {facts.map(({ label, value, Icon }) => (
+            <div
               key={label}
-              delay={index * 80}
-              className="rounded-2xl border border-gray-200 bg-white p-6 transition hover:-translate-y-1 hover:border-green-300 hover:shadow-lg"
+              className="h-full rounded-2xl border border-line bg-white p-6 transition duration-[400ms] ease-out-quint hover:-translate-y-1 hover:border-accent/30 hover:shadow-[0_24px_50px_-32px_rgba(20,22,16,0.35)]"
             >
-              <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-green-100 text-xl text-green-700">
+              <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-accent-soft text-xl text-accent">
                 <Icon aria-hidden="true" />
               </span>
-              <dt className="mt-4 text-xs font-semibold uppercase tracking-wide text-gray-500">
+              <dt className="mt-4 font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-muted">
                 {label}
               </dt>
-              <dd className="mt-1 text-base font-semibold text-gray-900">
+              <dd className="mt-1.5 text-base font-semibold text-ink">
                 {value}
               </dd>
-            </Reveal>
+            </div>
           ))}
-        </dl>
+        </Reveal>
       </div>
     </section>
   );

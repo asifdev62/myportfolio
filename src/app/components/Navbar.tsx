@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { IconType } from 'react-icons';
 import { FaGithub, FaWhatsapp } from 'react-icons/fa';
 import { GrLinkedinOption } from 'react-icons/gr';
@@ -62,27 +62,50 @@ const Navbar = () => {
         };
     }, [open]);
 
+    useEffect(() => {
+        if (!open) return;
+
+        const onKeyDown = (event: KeyboardEvent) => {
+            if (event.key === 'Escape') setOpen(false);
+        };
+
+        window.addEventListener('keydown', onKeyDown);
+        return () => window.removeEventListener('keydown', onKeyDown);
+    }, [open]);
+
+    // Close the mobile menu when the viewport crosses into the desktop nav so
+    // the body scroll lock is released.
+    useEffect(() => {
+        const media = window.matchMedia('(min-width: 768px)');
+        const onChange = () => {
+            if (media.matches) setOpen(false);
+        };
+
+        media.addEventListener('change', onChange);
+        return () => media.removeEventListener('change', onChange);
+    }, []);
+
     return (
         <header
-            className={`sticky top-0 z-50 w-full bg-[#0F1019] transition-all duration-300 ${
+            className={`sticky top-0 z-50 w-full bg-ink transition-[border-color,box-shadow] duration-300 ${
                 scrolled
-                    ? 'border-b border-white/10 shadow-lg shadow-black/30 py-3'
-                    : 'border-b border-transparent py-3'
+                    ? 'border-b border-white/10 shadow-lg shadow-black/20'
+                    : 'border-b border-transparent'
             }`}
         >
             <nav
                 aria-label="Main"
-                className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5 sm:px-8 "
+                className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5 sm:px-8"
             >
                 {/* Logo */}
                 <Link href="/" className="flex items-center" aria-label="Home">
                     <Image
                         src="/logo.png"
-                        alt="navlogo"
+                        alt=""
                         width={200}
                         height={200}
                         priority
-                        className="h-12 w-auto sm:h-13"
+                        className="h-11 w-auto grayscale brightness-125 sm:h-12"
                     />
                 </Link>
 
@@ -96,12 +119,12 @@ const Navbar = () => {
                                     href={href}
                                     aria-current={active ? 'page' : undefined}
                                     className={`group relative py-1 text-[15px] font-medium transition-colors hover:text-white focus-visible:text-white focus-visible:outline-none ${
-                                        active ? 'text-white' : 'text-slate-300'
+                                        active ? 'text-white' : 'text-white/60'
                                     }`}
                                 >
                                     {label}
                                     <span
-                                        className={`absolute inset-x-0 -bottom-0.5 h-0.5 origin-left rounded-full bg-teal-400 transition-transform duration-300 group-hover:scale-x-100 group-focus-visible:scale-x-100 ${
+                                        className={`absolute inset-x-0 -bottom-0.5 h-0.5 origin-left rounded-full bg-accent-soft transition-transform duration-300 ease-out-quint group-hover:scale-x-100 group-focus-visible:scale-x-100 ${
                                             active ? 'scale-x-100' : 'scale-x-0'
                                         }`}
                                     />
@@ -121,7 +144,7 @@ const Navbar = () => {
                             rel="noopener noreferrer"
                             aria-label={ariaLabel ?? label}
                             title={title}
-                            className="flex h-10 w-10 items-center justify-center rounded-full border border-white/15 text-slate-300 transition hover:border-teal-400 hover:bg-teal-400 hover:text-[#0F1019] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-400"
+                            className="flex h-10 w-10 items-center justify-center rounded-full border border-white/15 text-white/70 transition duration-200 ease-out-quint hover:border-accent-soft hover:bg-accent-soft hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-soft"
                         >
                             <Icon className="text-lg" />
                         </a>
@@ -135,7 +158,7 @@ const Navbar = () => {
                     aria-expanded={open}
                     aria-controls="mobile-menu"
                     aria-label={open ? 'Close menu' : 'Open menu'}
-                    className="flex h-10 w-10 items-center justify-center rounded-full text-2xl text-slate-200 transition hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-400 md:hidden"
+                    className="flex h-10 w-10 items-center justify-center rounded-full text-2xl text-white/80 transition hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-soft md:hidden"
                 >
                     {open ? <HiX /> : <HiMenuAlt3 />}
                 </button>
@@ -144,12 +167,14 @@ const Navbar = () => {
             {/* Mobile menu */}
             <div
                 id="mobile-menu"
-                className={`grid transition-all duration-300 ease-out md:hidden ${
+                inert={!open}
+                aria-hidden={!open}
+                className={`grid transition-all duration-300 ease-out-quint md:hidden ${
                     open ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'
                 }`}
             >
                 <div className="overflow-hidden">
-                    <ul className="flex flex-col gap-1 border-t border-white/10 bg-[#0F1019] px-5 py-4">
+                    <ul className="flex flex-col gap-1 border-t border-white/10 bg-ink px-5 py-4">
                         {links.map(({ label, href }) => {
                             const active = isActive(href);
                             return (
@@ -158,8 +183,8 @@ const Navbar = () => {
                                         href={href}
                                         onClick={() => setOpen(false)}
                                         aria-current={active ? 'page' : undefined}
-                                        className={`block rounded-lg px-3 py-3 text-base font-medium transition hover:bg-white/5 hover:text-teal-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-400 ${
-                                            active ? 'text-teal-400' : 'text-slate-300'
+                                        className={`block rounded-lg px-3 py-3 text-base font-medium transition hover:bg-white/5 hover:text-accent-soft focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-soft ${
+                                            active ? 'text-accent-soft' : 'text-white/70'
                                         }`}
                                     >
                                         {label}
@@ -176,7 +201,7 @@ const Navbar = () => {
                                     rel="noopener noreferrer"
                                     aria-label={ariaLabel ?? label}
                                     title={title}
-                                    className="flex h-10 w-10 items-center justify-center rounded-full border border-white/15 text-slate-300 transition hover:border-teal-400 hover:bg-teal-400 hover:text-[#0F1019]"
+                                    className="flex h-10 w-10 items-center justify-center rounded-full border border-white/15 text-white/70 transition hover:border-accent-soft hover:bg-accent-soft hover:text-ink"
                                 >
                                     <Icon className="text-lg" />
                                 </a>

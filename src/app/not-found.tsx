@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { FiArrowLeft, FiArrowUpRight } from "react-icons/fi";
 import { revealDelay } from "@/app/lib/motion";
+import { buttonArrow } from "@/app/lib/styles";
+import { ButtonLink } from "./components/ui/Button";
 
 export const metadata: Metadata = {
   title: "Page not found | Asif Ali",
@@ -10,23 +11,23 @@ export const metadata: Metadata = {
 
 export default function NotFound() {
   return (
-    <section className="flex flex-1 flex-col items-center justify-center bg-[#fafbf9] px-5 py-24 text-center sm:px-8 lg:px-12">
+    <section className="flex flex-1 flex-col items-center justify-center bg-surface px-5 py-24 text-center sm:px-8 lg:px-12">
       <p
-        className="animate-fade-up text-sm font-semibold uppercase tracking-[0.25em] text-green-700"
+        className="eyebrow animate-fade-up"
         style={revealDelay(0)}
       >
         404
       </p>
 
       <h1
-        className="animate-fade-up mt-4 text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl"
+        className="animate-fade-up mt-5 font-display text-[clamp(2.75rem,6vw,4.5rem)] leading-[0.98] tracking-[-0.02em] text-ink"
         style={revealDelay(80)}
       >
         Page not found
       </h1>
 
       <p
-        className="animate-fade-up mt-5 max-w-md text-base leading-8 text-gray-600 sm:text-lg"
+        className="animate-fade-up mt-5 max-w-md text-base leading-8 text-muted sm:text-lg"
         style={revealDelay(160)}
       >
         The page you are looking for doesn&apos;t exist or may have moved. Let
@@ -37,21 +38,19 @@ export default function NotFound() {
         className="animate-fade-up mt-8 flex flex-col gap-3 sm:flex-row"
         style={revealDelay(240)}
       >
-        <Link
-          href="/"
-          className="inline-flex items-center justify-center gap-2 rounded-xl bg-green-700 px-6 py-3.5 text-sm font-semibold text-white shadow-lg shadow-green-700/15 transition hover:-translate-y-0.5 hover:bg-green-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-700"
-        >
+        <ButtonLink href="/">
           <FiArrowLeft aria-hidden="true" size={18} />
           Back to home
-        </Link>
+        </ButtonLink>
 
-        <Link
-          href="/projects"
-          className="inline-flex items-center justify-center gap-2 rounded-xl border border-gray-300 bg-white px-6 py-3.5 text-sm font-semibold text-gray-800 transition hover:-translate-y-0.5 hover:border-green-600 hover:text-green-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-700"
-        >
+        <ButtonLink href="/projects" variant="secondary">
           View all projects
-          <FiArrowUpRight aria-hidden="true" size={18} />
-        </Link>
+          <FiArrowUpRight
+            aria-hidden="true"
+            className={buttonArrow}
+            size={18}
+          />
+        </ButtonLink>
       </div>
     </section>
   );

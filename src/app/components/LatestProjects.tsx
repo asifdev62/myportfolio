@@ -1,20 +1,21 @@
-import Link from "next/link";
-import { FiArrowUpRight } from "react-icons/fi";
 import SectionHeading from "./SectionHeading";
 import ProjectCard from "./ProjectCard";
 import Reveal from "./Reveal";
 import { latestProjects } from "@/app/data/projects";
+import { FiArrowUpRight } from "react-icons/fi";
+import { buttonArrow, sectionPadding } from "@/app/lib/styles";
+import { ButtonLink } from "./ui/Button";
 
 export default function LatestProjects() {
   return (
     <section
       aria-labelledby="latest-projects-heading"
-      className="border-b border-gray-100 bg-white px-5 py-16 sm:px-8 sm:py-20 lg:px-12 lg:py-24"
+      className={`border-b border-line bg-white ${sectionPadding}`}
     >
       <div className="mx-auto max-w-7xl">
         <SectionHeading
           eyebrow="Recent work"
-          title="Latest Projects"
+          title="Latest projects"
           description="A closer look at what I have been building most recently — two full-stack applications with live demos and source code."
           id="latest-projects-heading"
           className="mb-12"
@@ -22,26 +23,26 @@ export default function LatestProjects() {
 
         {/* Centered flex tracks mirror the Projects grid columns so the
             featured cards keep the exact same size; a partial row centers. */}
-        <div className="flex flex-wrap justify-center gap-6">
-          {latestProjects.map((project, index) => (
-            <Reveal
+        <Reveal group className="flex flex-wrap justify-center gap-6">
+          {latestProjects.map((project) => (
+            <div
               key={project.slug}
-              delay={(index % 3) * 90}
               className="h-full w-full md:w-[calc(50%_-_0.75rem)] xl:w-[calc(33.333%_-_1rem)]"
             >
               <ProjectCard project={project} featured />
-            </Reveal>
+            </div>
           ))}
-        </div>
+        </Reveal>
 
         <div className="mt-12 flex justify-center">
-          <Link
-            href="/projects"
-            className="inline-flex items-center justify-center gap-2 rounded-xl bg-green-700 px-6 py-3.5 text-sm font-semibold text-white shadow-lg shadow-green-700/15 transition hover:-translate-y-0.5 hover:bg-green-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-700"
-          >
-            View All Projects
-            <FiArrowUpRight aria-hidden="true" size={18} />
-          </Link>
+          <ButtonLink href="/projects">
+            View all projects
+            <FiArrowUpRight
+              aria-hidden="true"
+              className={buttonArrow}
+              size={18}
+            />
+          </ButtonLink>
         </div>
       </div>
     </section>

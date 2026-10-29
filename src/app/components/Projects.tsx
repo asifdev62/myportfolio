@@ -1,43 +1,43 @@
-import Link from "next/link";
 import SectionHeading from "./SectionHeading";
 import ProjectCard from "./ProjectCard";
 import Reveal from "./Reveal";
 import { projects } from "@/app/data/projects";
 import { FiArrowUpRight } from "react-icons/fi";
+import { buttonArrow, sectionPadding } from "@/app/lib/styles";
+import { ButtonLink } from "./ui/Button";
 
 export default function Projects() {
   return (
     <section
       id="projects"
       aria-labelledby="projects-heading"
-      className="scroll-mt-24 bg-white px-5 py-16 sm:px-8 sm:py-20 lg:px-12 lg:py-24"
+      className={`scroll-mt-24 bg-white ${sectionPadding}`}
     >
       <div className="mx-auto max-w-7xl">
         <SectionHeading
           eyebrow="Portfolio"
-          title="All Projects"
+          title="All projects"
           description="Four projects spanning market data, news, fitness, and reading. Each one links to its live demo, source code, and a detailed case study."
           as="h1"
           id="projects-heading"
           className="mb-12"
         />
 
-        <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-          {projects.map((project, index) => (
-            <Reveal key={project.slug} delay={(index % 3) * 90} className="h-full">
-              <ProjectCard project={project} />
-            </Reveal>
+        <Reveal group className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+          {projects.map((project) => (
+            <ProjectCard key={project.slug} project={project} />
           ))}
-        </div>
+        </Reveal>
 
         <div className="mt-12 flex justify-center">
-          <Link
-            href="/contact"
-            className="inline-flex items-center justify-center gap-2 rounded-xl border border-gray-300 bg-white px-6 py-3.5 text-sm font-semibold text-gray-800 transition hover:-translate-y-0.5 hover:border-green-600 hover:text-green-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-700"
-          >
+          <ButtonLink href="/contact" variant="secondary">
             Discuss a project
-            <FiArrowUpRight aria-hidden="true" size={18} />
-          </Link>
+            <FiArrowUpRight
+              aria-hidden="true"
+              className={buttonArrow}
+              size={18}
+            />
+          </ButtonLink>
         </div>
       </div>
     </section>

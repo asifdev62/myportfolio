@@ -1,32 +1,86 @@
 @import "tailwindcss";
 
-/* Shared motion tokens so every animation uses the same rhythm. */
+/* ------------------------------------------------------------------ */
+/* Design tokens                                                       */
+/* ------------------------------------------------------------------ */
+
+@theme {
+  --color-ink: #141610;
+  --color-ink-soft: #2c2f27;
+  --color-surface: #faf9f5;
+  --color-surface-alt: #f1efe7;
+  --color-line: #e3e0d4;
+  --color-accent: #1d5c3f;
+  --color-accent-strong: #164a32;
+  --color-accent-soft: #e7f0e6;
+  --color-muted: #6b6f66;
+
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+  --font-display: var(--font-instrument-serif), Georgia, serif;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out-soft: cubic-bezier(0.65, 0, 0.35, 1);
+}
+
 :root {
-  --ease-soft: cubic-bezier(0.22, 1, 0.36, 1);
-  --reveal-duration: 600ms;
+  --reveal-duration: 700ms;
   --reveal-delay: 0ms;
 }
 
-/* Print: drop the site chrome so the résumé prints as a clean document. */
-@media print {
-  header,
-  footer {
-    display: none !important;
+/* ------------------------------------------------------------------ */
+/* Base                                                                */
+/* ------------------------------------------------------------------ */
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
   }
 
   body {
-    background: #ffffff !important;
+    background-color: var(--color-surface);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+  }
+
+  ::selection {
+    background-color: var(--color-accent);
+    color: #ffffff;
   }
 }
 
 /* ------------------------------------------------------------------ */
-/* Entrance / scroll-reveal animations (transform + opacity only)     */
+/* Typography helpers                                                  */
+/* ------------------------------------------------------------------ */
+
+@layer components {
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    line-height: 1.4;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+  }
+
+  .display {
+    font-family: var(--font-display);
+    font-weight: 400;
+    line-height: 0.98;
+    letter-spacing: -0.02em;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Keyframes                                                           */
 /* ------------------------------------------------------------------ */
 
 @keyframes fade-up {
   from {
     opacity: 0;
-    transform: translateY(18px);
+    transform: translateY(14px);
   }
   to {
     opacity: 1;
@@ -34,10 +88,19 @@
   }
 }
 
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 @keyframes scale-in {
   from {
     opacity: 0;
-    transform: scale(0.96);
+    transform: scale(0.97);
   }
   to {
     opacity: 1;
@@ -45,56 +108,228 @@
   }
 }
 
-@keyframes pulse-soft {
+@keyframes mask-up {
+  from {
+    transform: translateY(110%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes caret-blink {
   0%,
-  100% {
+  49% {
     opacity: 1;
-    transform: scale(1);
   }
-  50% {
-    opacity: 0.5;
-    transform: scale(0.82);
+  50%,
+  100% {
+    opacity: 0;
   }
 }
 
-/* Hero / page entrance: plays once on load, staggered via --reveal-delay. */
-.animate-fade-up {
-  animation: fade-up 700ms var(--ease-soft) both;
-  animation-delay: var(--reveal-delay);
+@keyframes underline-draw {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
 }
 
-.animate-scale-in {
-  animation: scale-in 800ms var(--ease-soft) both;
-  animation-delay: var(--reveal-delay);
-}
+/* ------------------------------------------------------------------ */
+/* Motion primitives                                                   */
+/* ------------------------------------------------------------------ */
 
-/* Slower, softer loop for the availability dot. */
-.animate-pulse-soft {
-  animation: pulse-soft 2.4s var(--ease-soft) infinite;
-}
+@layer components {
+  /* Entrance animations use `backwards` rather than `both` so the final
+     transform does not stick around and block hover lifts. */
+  .animate-fade-up {
+    animation: fade-up 700ms var(--ease-out-expo) backwards;
+    animation-delay: var(--reveal-delay);
+  }
 
-/* Scroll reveal: hidden until the observer marks the wrapper visible.
-   A <noscript> fallback in layout.tsx shows it when JavaScript is off. */
-.reveal {
-  opacity: 0;
-  transform: translateY(22px);
-}
+  .animate-fade-in {
+    animation: fade-in 700ms var(--ease-out-expo) backwards;
+    animation-delay: var(--reveal-delay);
+  }
 
-.reveal[data-visible="true"] {
-  animation: fade-up var(--reveal-duration) var(--ease-soft) both;
-  animation-delay: var(--reveal-delay);
-}
+  .animate-scale-in {
+    animation: scale-in 900ms var(--ease-out-expo) backwards;
+    animation-delay: var(--reveal-delay);
+  }
 
-/* Respect users who prefer reduced motion: reveal everything immediately. */
-@media (prefers-reduced-motion: reduce) {
-  .animate-fade-up,
-  .animate-scale-in,
-  .animate-pulse-soft,
-  .reveal,
+  /* Hero line mask: each line sits in its own overflow-hidden track. */
+  .mask-line {
+    display: block;
+    overflow: hidden;
+    padding-bottom: 0.12em;
+    margin-bottom: -0.12em;
+    padding-right: 0.06em;
+    margin-right: -0.06em;
+  }
+
+  .mask-line > span {
+    display: block;
+    animation: mask-up 900ms var(--ease-out-expo) both;
+    animation-delay: var(--reveal-delay);
+  }
+
+  /* Typewriter caret and the hand-drawn-feeling accent underline. */
+  .typewriter-caret {
+    display: inline-block;
+    width: 2px;
+    height: 1.05em;
+    margin-left: 2px;
+    background-color: var(--color-accent);
+    animation: caret-blink 1s step-end infinite;
+  }
+
+  .typewriter-underline {
+    position: absolute;
+    left: 0;
+    bottom: -0.4em;
+    width: 100%;
+    height: 2px;
+    background-color: var(--color-accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    animation: underline-draw 500ms var(--ease-out-expo) forwards;
+    pointer-events: none;
+  }
+
+  /* Individual scroll reveal. The wrapper is a plain div, so a transform
+     transition here never competes with a child card's hover transform. */
+  .reveal {
+    opacity: 0;
+    transform: translateY(18px);
+    transition:
+      opacity var(--reveal-duration) var(--ease-out-expo),
+      transform var(--reveal-duration) var(--ease-out-expo);
+    transition-delay: var(--reveal-delay);
+  }
+
+  .reveal[data-variant="fade"] {
+    transform: none;
+  }
+
+  .reveal[data-variant="scale"] {
+    transform: scale(0.97);
+  }
+
   .reveal[data-visible="true"] {
-    animation: none !important;
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Group reveal: stagger direct children instead of sliding a whole grid.
+     Children use a backwards fill so their own hover transforms still work
+     once the entrance finishes. */
+  .reveal-group > * {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+
+  .reveal-group[data-visible="true"] > * {
+    opacity: 1;
+    transform: none;
+    animation: fade-up var(--reveal-duration) var(--ease-out-expo) backwards;
+  }
+
+  .reveal-group[data-visible="true"] > :nth-child(2) {
+    animation-delay: 70ms;
+  }
+  .reveal-group[data-visible="true"] > :nth-child(3) {
+    animation-delay: 140ms;
+  }
+  .reveal-group[data-visible="true"] > :nth-child(4) {
+    animation-delay: 210ms;
+  }
+  .reveal-group[data-visible="true"] > :nth-child(5) {
+    animation-delay: 280ms;
+  }
+  .reveal-group[data-visible="true"] > :nth-child(6) {
+    animation-delay: 350ms;
+  }
+  .reveal-group[data-visible="true"] > :nth-child(7) {
+    animation-delay: 420ms;
+  }
+  .reveal-group[data-visible="true"] > :nth-child(8) {
+    animation-delay: 490ms;
+  }
+  .reveal-group[data-visible="true"] > :nth-child(n + 9) {
+    animation-delay: 560ms;
+  }
+
+}
+
+/* ------------------------------------------------------------------ */
+/* Print: drop the site chrome so the résumé prints as a clean document */
+/* ------------------------------------------------------------------ */
+
+@media print {
+  header,
+  footer,
+  [data-skip-link] {
+    display: none !important;
+  }
+
+  body {
+    background: #ffffff !important;
+  }
+
+  /* Off-screen sections never intersect, so force every reveal visible when
+     printing instead of losing content below the fold. */
+  .reveal,
+  .reveal-group > * {
     opacity: 1 !important;
     transform: none !important;
+    animation: none !important;
+    transition: none !important;
+  }
+
+  /* Print the full label rather than whatever happened to be typed. */
+  .typewriter-full {
+    visibility: visible !important;
+  }
+
+  .typewriter-live,
+  .typewriter-caret,
+  .typewriter-underline {
+    display: none !important;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Reduced motion: reveal everything immediately                       */
+/* ------------------------------------------------------------------ */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .animate-fade-up,
+  .animate-fade-in,
+  .animate-scale-in,
+  .mask-line > span,
+  .reveal,
+  .reveal-group > *,
+  .reveal-group[data-visible="true"] > * {
+    animation: none !important;
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .typewriter-caret {
+    animation: none !important;
+    opacity: 0 !important;
+  }
+
+  .typewriter-underline {
+    animation: none !important;
+    transform: scaleX(1) !important;
   }
 
   *,

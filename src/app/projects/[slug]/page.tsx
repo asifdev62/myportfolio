@@ -16,6 +16,8 @@ import {
 } from "@/app/data/projects";
 import ProjectCard from "@/app/components/ProjectCard";
 import Reveal from "@/app/components/Reveal";
+import { buttonArrow } from "@/app/lib/styles";
+import { ButtonLink } from "@/app/components/ui/Button";
 
 export function generateStaticParams() {
   return projects.map((project) => ({ slug: project.slug }));
@@ -52,31 +54,32 @@ export default async function ProjectDetailsPage(
   return (
     <article className="bg-white">
       {/* Case-study header */}
-      <header className="border-b border-gray-100 bg-[#fafbf9] px-5 pb-14 pt-10 sm:px-8 sm:pt-14 lg:px-12">
+      <header className="border-b border-line bg-surface px-5 pb-14 pt-10 sm:px-8 sm:pt-14 lg:px-12">
         <div className="mx-auto max-w-4xl">
           <Link
             href="/projects"
-            className="inline-flex items-center gap-2 text-sm font-semibold text-green-700 transition hover:text-green-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-700"
+            className="inline-flex items-center gap-2 font-mono text-[11px] font-medium uppercase tracking-[0.16em] text-accent transition hover:text-accent-strong focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
           >
-            <FiArrowLeft aria-hidden="true" size={18} />
+            <FiArrowLeft aria-hidden="true" size={16} />
             Back to all projects
           </Link>
 
-          <p className="mt-8 text-sm font-semibold uppercase tracking-[0.25em] text-green-700">
-            Case study
-          </p>
+          <div className="mt-8 flex items-center gap-3">
+            <span aria-hidden="true" className="h-px w-8 bg-accent/40" />
+            <p className="eyebrow">Case study</p>
+          </div>
 
-          <h1 className="mt-4 text-4xl font-bold leading-tight tracking-tight text-gray-900 sm:text-5xl">
+          <h1 className="mt-5 font-display text-[clamp(2.75rem,6vw,4.5rem)] leading-[0.98] tracking-[-0.02em] text-ink">
             {project.name}
           </h1>
 
           {project.alternateName ? (
-            <p className="mt-2 text-lg font-medium text-green-700">
+            <p className="mt-2 text-lg font-medium text-accent">
               {project.alternateName}
             </p>
           ) : null}
 
-          <p className="mt-5 max-w-2xl text-base leading-8 text-gray-600 sm:text-lg">
+          <p className="mt-5 max-w-2xl text-base leading-8 text-muted sm:text-lg">
             {project.tagline}
           </p>
 
@@ -84,7 +87,7 @@ export default async function ProjectDetailsPage(
             {project.tech.map((tech) => (
               <li
                 key={tech}
-                className="rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-xs font-medium text-gray-700"
+                className="rounded-lg border border-line bg-white px-3 py-1.5 font-mono text-[10px] font-medium uppercase tracking-[0.12em] text-ink-soft"
               >
                 {tech}
               </li>
@@ -92,29 +95,27 @@ export default async function ProjectDetailsPage(
           </ul>
 
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <a
-              href={project.liveUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 rounded-xl bg-green-700 px-6 py-3.5 text-sm font-semibold text-white shadow-lg shadow-green-700/15 transition hover:-translate-y-0.5 hover:bg-green-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-700"
-            >
-              Live Demo
-              <FiArrowUpRight aria-hidden="true" size={18} />
-            </a>
+            <ButtonLink href={project.liveUrl} external>
+              Live demo
+              <FiArrowUpRight
+                aria-hidden="true"
+                className={buttonArrow}
+                size={18}
+              />
+            </ButtonLink>
 
-            <a
+            <ButtonLink
               href={project.repoUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 rounded-xl border border-gray-300 bg-white px-6 py-3.5 text-sm font-semibold text-gray-800 transition hover:-translate-y-0.5 hover:border-green-600 hover:text-green-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-700"
+              external
+              variant="secondary"
             >
               <FiGithub aria-hidden="true" size={18} />
-              GitHub Repository
-            </a>
+              GitHub repository
+            </ButtonLink>
           </div>
 
           {project.image ? (
-            <div className="mt-10 overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-lg">
+            <div className="mt-10 overflow-hidden rounded-2xl border border-line bg-white shadow-[0_30px_80px_-50px_rgba(20,22,16,0.5)]">
               <Image
                 src={project.image}
                 alt={`${project.name} project screenshot`}
@@ -131,37 +132,37 @@ export default async function ProjectDetailsPage(
       {/* Case-study body */}
       <div className="mx-auto max-w-4xl space-y-12 px-5 py-14 sm:px-8 sm:py-16 lg:px-12">
         <section>
-          <h2 className="text-2xl font-bold tracking-tight text-gray-900">
+          <h2 className="font-display text-2xl leading-tight tracking-[-0.01em] text-ink sm:text-3xl">
             Project overview
           </h2>
-          <p className="mt-4 text-base leading-8 text-gray-600 sm:text-lg">
+          <p className="mt-4 text-base leading-8 text-muted sm:text-lg">
             {project.overview}
           </p>
         </section>
 
         <section>
-          <h2 className="text-2xl font-bold tracking-tight text-gray-900">
+          <h2 className="font-display text-2xl leading-tight tracking-[-0.01em] text-ink sm:text-3xl">
             The problem it addresses
           </h2>
-          <p className="mt-4 text-base leading-8 text-gray-600 sm:text-lg">
+          <p className="mt-4 text-base leading-8 text-muted sm:text-lg">
             {project.problem}
           </p>
         </section>
 
         <section>
-          <h2 className="text-2xl font-bold tracking-tight text-gray-900">
+          <h2 className="font-display text-2xl leading-tight tracking-[-0.01em] text-ink sm:text-3xl">
             Key features
           </h2>
           <ul className="mt-6 grid gap-3 sm:grid-cols-2">
             {project.features.map((feature) => (
               <li
                 key={feature}
-                className="flex items-start gap-3 rounded-2xl border border-gray-200 bg-[#fafbf9] p-4"
+                className="flex items-start gap-3 rounded-2xl border border-line bg-surface p-4"
               >
-                <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-green-100 text-sm text-green-700">
+                <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-accent-soft text-sm text-accent">
                   <FiCheck aria-hidden="true" />
                 </span>
-                <span className="text-sm leading-6 text-gray-700">
+                <span className="text-sm leading-6 text-ink-soft">
                   {feature}
                 </span>
               </li>
@@ -170,14 +171,14 @@ export default async function ProjectDetailsPage(
         </section>
 
         <section>
-          <h2 className="text-2xl font-bold tracking-tight text-gray-900">
+          <h2 className="font-display text-2xl leading-tight tracking-[-0.01em] text-ink sm:text-3xl">
             Technologies used
           </h2>
           <ul className="mt-6 flex flex-wrap gap-2">
             {project.tech.map((tech) => (
               <li
                 key={tech}
-                className="rounded-xl border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-700"
+                className="rounded-xl border border-line bg-white px-4 py-2 text-sm font-medium text-ink-soft"
               >
                 {tech}
               </li>
@@ -186,16 +187,16 @@ export default async function ProjectDetailsPage(
         </section>
 
         <section>
-          <h2 className="text-2xl font-bold tracking-tight text-gray-900">
+          <h2 className="font-display text-2xl leading-tight tracking-[-0.01em] text-ink sm:text-3xl">
             My implementation
           </h2>
-          <p className="mt-4 text-base leading-8 text-gray-600 sm:text-lg">
+          <p className="mt-4 text-base leading-8 text-muted sm:text-lg">
             {project.implementation}
           </p>
         </section>
 
         <section>
-          <h2 className="text-2xl font-bold tracking-tight text-gray-900">
+          <h2 className="font-display text-2xl leading-tight tracking-[-0.01em] text-ink sm:text-3xl">
             Technical decisions
           </h2>
           <ul className="mt-6 space-y-4">
@@ -203,9 +204,9 @@ export default async function ProjectDetailsPage(
               <li key={decision} className="flex items-start gap-3">
                 <span
                   aria-hidden="true"
-                  className="mt-2 h-2 w-2 shrink-0 rounded-full bg-green-600"
+                  className="mt-2 h-2 w-2 shrink-0 rounded-full bg-accent"
                 />
-                <span className="text-base leading-8 text-gray-600">
+                <span className="text-base leading-8 text-muted">
                   {decision}
                 </span>
               </li>
@@ -217,35 +218,35 @@ export default async function ProjectDetailsPage(
       {/* Related projects */}
       <section
         aria-labelledby="related-projects-heading"
-        className="border-t border-gray-100 bg-[#fafbf9] px-5 py-16 sm:px-8 sm:py-20 lg:px-12"
+        className="border-t border-line bg-surface px-5 py-16 sm:px-8 sm:py-20 lg:px-12"
       >
         <div className="mx-auto max-w-7xl">
+          <div className="flex items-center gap-3">
+            <span aria-hidden="true" className="h-px w-8 bg-accent/40" />
+            <p className="eyebrow">More work</p>
+          </div>
+
           <h2
             id="related-projects-heading"
-            className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl"
+            className="mt-5 font-display text-[clamp(2.1rem,4vw,3.25rem)] leading-[1.02] tracking-[-0.02em] text-ink"
           >
             Related projects
           </h2>
-          <p className="mt-4 max-w-2xl text-base leading-8 text-gray-600 sm:text-lg">
+          <p className="mt-4 max-w-2xl text-base leading-8 text-muted sm:text-lg">
             More of the work I&apos;ve built.
           </p>
 
-          <div className="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-            {relatedProjects.map((related, index) => (
-              <Reveal key={related.slug} delay={index * 90} className="h-full">
-                <ProjectCard project={related} />
-              </Reveal>
+          <Reveal group className="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+            {relatedProjects.map((related) => (
+              <ProjectCard key={related.slug} project={related} />
             ))}
-          </div>
+          </Reveal>
 
           <div className="mt-10 flex justify-center">
-            <Link
-              href="/projects"
-              className="inline-flex items-center justify-center gap-2 rounded-xl border border-gray-300 bg-white px-6 py-3.5 text-sm font-semibold text-gray-800 transition hover:-translate-y-0.5 hover:border-green-600 hover:text-green-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-700"
-            >
+            <ButtonLink href="/projects" variant="secondary">
               <FiArrowLeft aria-hidden="true" size={18} />
               Back to all projects
-            </Link>
+            </ButtonLink>
           </div>
         </div>
       </section>

@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { FiCode } from "react-icons/fi";
 import { revealDelay } from "@/app/lib/motion";
 
 interface ProfilePortraitProps {
@@ -11,7 +10,7 @@ interface ProfilePortraitProps {
 
 /**
  * The framed profile portrait shared by the home hero and the About page:
- * offset accent border, caption card, and the "Clean Code" floating badge.
+ * a single offset rule, a soft gradient caption, and no floating badges.
  */
 export default function ProfilePortrait({
   animated = false,
@@ -19,45 +18,46 @@ export default function ProfilePortrait({
 }: ProfilePortraitProps) {
   return (
     <div
-      className={`relative w-full max-w-[320px] sm:max-w-90.5 lg:max-w-112.5 ${
+      className={`relative w-full max-w-[340px] sm:max-w-[380px] lg:max-w-[440px] ${
         animated ? "animate-scale-in" : ""
       }`}
       style={animated ? revealDelay(delay) : undefined}
     >
-      {/* Decorative Background */}
-      <div className="absolute -right-3 -top-3 h-full w-full rounded-4xl border-2 border-green-600 sm:-right-5 sm:-top-5" />
+      {/* Single decorative offset rule */}
+      <div
+        aria-hidden="true"
+        className="absolute -bottom-4 -right-4 h-full w-full rounded-3xl border border-accent"
+      />
 
-      <div className="relative overflow-hidden rounded-4xl bg-green-100 shadow-2xl shadow-green-900/10">
+      <div className="relative aspect-[6/7] overflow-hidden rounded-3xl bg-surface-alt shadow-[0_30px_80px_-40px_rgba(20,22,16,0.5)]">
         <Image
-          src="/my .jpg"
-          alt="Asif Ali - Full-Stack Web Developer"
-          width={600}
-          height={700}
+          src="/portrait.jpg"
+          alt="Asif Ali, Full-Stack Web Developer"
+          fill
           priority
-          className="h-87.5 w-full object-cover object-center sm:h-110 lg:h-130"
+          sizes="(min-width: 1024px) 440px, (min-width: 640px) 380px, 90vw"
+          className="object-cover object-center"
         />
 
-        {/* Image Caption */}
-        <div className="absolute inset-x-3 bottom-3 flex items-center gap-3 rounded-2xl border border-white/50 bg-white/90 p-4 shadow-lg backdrop-blur-md sm:inset-x-4 sm:bottom-4">
-          <div className="rounded-xl bg-green-100 p-3 text-green-700">
-            <FiCode size={25} />
-          </div>
+        <div
+          aria-hidden="true"
+          className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-accent/85 via-accent/40 to-transparent"
+        />
 
+        <div className="absolute inset-x-5 bottom-5 flex items-end justify-between gap-4 text-white">
           <div>
-            <p className="font-bold text-gray-900">Turning Ideas Into Code</p>
-            <p className="mt-1 text-sm text-gray-600">
-              Design · Develop · Deliver
+            <p className="font-display text-2xl leading-none [text-shadow:0_1px_12px_rgba(0,0,0,0.45)]">
+              Asif Ali
+            </p>
+            <p className="mt-1.5 font-mono text-[10px] uppercase tracking-[0.18em] text-white/80 [text-shadow:0_1px_8px_rgba(0,0,0,0.5)]">
+              Full-stack developer
             </p>
           </div>
-        </div>
-      </div>
 
-      {/* Floating Badge */}
-      <div className="absolute -left-2 top-6 rounded-lg border border-gray-100 bg-white px-2 py-1.5 shadow-lg sm:-left-6 sm:top-12 sm:rounded-xl sm:px-4 sm:py-3">
-        <p className="text-xs font-bold text-gray-900 sm:text-sm">Clean Code</p>
-        <p className="mt-0.5 text-[10px] text-green-700 sm:mt-1 sm:text-xs">
-          Thoughtful Solutions
-        </p>
+          <span className="rounded-full border border-white/30 bg-white/10 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.16em] backdrop-blur-sm">
+            Dhaka, BD
+          </span>
+        </div>
       </div>
     </div>
   );

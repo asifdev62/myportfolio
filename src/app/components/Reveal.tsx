@@ -1,35 +1,49 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import type { CSSProperties, ReactNode } from "react";
+import type { CSSProperties, ReactNode, Ref } from "react";
+
+type RevealVariant = "up" | "fade" | "scale";
+type RevealTag = "div" | "dl" | "ul";
 
 interface RevealProps {
   children: ReactNode;
   /** Stagger delay in milliseconds, applied via the `--reveal-delay` token. */
   delay?: number;
+  /** Entrance style. */
+  variant?: RevealVariant;
+  /**
+   * Treat this wrapper as the layout container and stagger its direct
+   * children (e.g. a grid) instead of animating the wrapper as one block.
+   */
+  group?: boolean;
+  /** Element to render, so semantic containers like `<dl>` stay intact. */
+  as?: RevealTag;
   /** Extra classes for the wrapper (e.g. `h-full` inside a grid). */
   className?: string;
 }
 
 /**
- * Reveals its children with a fade-up when they scroll into view.
+ * Reveals its children when they scroll into view.
  *
  * Children stay server-rendered — only this thin wrapper is a Client
- * Component. The hidden state lives in CSS (`.reveal`) with a `<noscript>`
- * fallback, so content remains visible when JavaScript is unavailable, and
- * `prefers-reduced-motion` neutralises the animation entirely.
+ * Component. The hidden state lives in CSS (`.reveal` / `.reveal-group`) with
+ * a `<noscript>` fallback, so content remains visible when JavaScript is
+ * unavailable, and `prefers-reduced-motion` neutralises the motion entirely.
  */
 export default function Reveal({
   children,
   delay = 0,
+  variant = "up",
+  group = false,
+  as = "div",
   className = "",
 }: RevealProps) {
-  const ref = useRef<HTMLDivElement>(null);
+  const nodeRef = useRef<HTMLElement | null>(null);
   const [visible, setVisible] = useState(false);
-  const [settled, setSettled] = useState(false);
 
   useEffect(() => {
-    const node = ref.current;
+    const node = nodeRef.current;
     if (!node) return;
 
     if (typeof IntersectionObserver === "undefined") {
@@ -46,33 +60,30 @@ export default function Reveal({
           }
         }
       },
-      { threshold: 0.15, rootMargin: "0px 0px -48px 0px" },
+      { threshold: 0.05, rootMargin: "0px 0px -48px 0px" },
     );
 
     observer.observe(node);
     return () => observer.disconnect();
   }, []);
 
-  // Once the animation finishes, drop the reveal classes so the wrapper's
-  // `transform` no longer overrides hover transforms on the same element,
-  // while keeping any layout classes (e.g. `h-full`) passed in.
-  const animationProps = settled
-    ? { className }
-    : {
-        className: `reveal ${className}`.trim(),
-        style: { "--reveal-delay": `${delay}ms` } as CSSProperties,
-      };
+  const setNode = (node: HTMLElement | null) => {
+    nodeRef.current = node;
+  };
+
+  // The runtime element can be a div, dl, or ul; the ref is cast because the
+  // callback itself accepts any HTMLElement.
+  const Tag = as as "div";
 
   return (
-    <div
-      ref={ref}
+    <Tag
+      ref={setNode as Ref<HTMLDivElement>}
       data-visible={visible ? "true" : undefined}
-      onAnimationEnd={(event) => {
-        if (event.target === event.currentTarget) setSettled(true);
-      }}
-      {...animationProps}
+      data-variant={variant !== "up" ? variant : undefined}
+      className={`${group ? "reveal-group" : "reveal"} ${className}`.trim()}
+      style={{ "--reveal-delay": `${delay}ms` } as CSSProperties}
     >
       {children}
-    </div>
+    </Tag>
   );
 }
