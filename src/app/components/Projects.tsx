@@ -1,4 +1,4 @@
-import SectionHeading from "./SectionHeading";
+import PageHeader from "./PageHeader";
 import ProjectCard from "./ProjectCard";
 import Reveal from "./Reveal";
 import { projects } from "@/app/data/projects";
@@ -14,13 +14,20 @@ export default function Projects() {
       className={`scroll-mt-24 bg-white ${sectionPadding}`}
     >
       <div className="mx-auto max-w-7xl">
-        <SectionHeading
-          eyebrow="Portfolio"
-          title="All projects"
-          description="Four projects spanning market data, news, fitness, and reading. Each one links to its live demo, source code, and a detailed case study."
-          as="h1"
+        <PageHeader
           id="projects-heading"
-          className="mb-12"
+          eyebrow="Portfolio"
+          title={
+            <>
+              All <span className="italic text-accent">projects</span>
+            </>
+          }
+          description="Four projects spanning market data, news, fitness, and reading. Each one links to its live demo, source code, and a detailed case study."
+          meta={[
+            `${String(projects.length).padStart(2, "0")} projects`,
+            "Live demos",
+            "Case studies",
+          ]}
         />
 
         <Reveal group className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">

@@ -10,7 +10,7 @@ const stack = [
   "REST APIs",
   "Better Auth",
   "Git",
-  "Github",
+  "GitHub",
 ];
 
 /**
@@ -47,7 +47,4 @@ export default function TechMarquee() {
     </div>
   );
 }
-
-
-
 

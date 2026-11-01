@@ -1,4 +1,4 @@
-import SectionHeading from "./SectionHeading";
+import PageHeader from "./PageHeader";
 import Reveal from "./Reveal";
 import { FiCode, FiLayers, FiServer, FiTool } from "react-icons/fi";
 import type { IconType } from "react-icons";
@@ -52,6 +52,11 @@ const categories: SkillCategory[] = [
   },
 ];
 
+const totalSkills = categories.reduce(
+  (total, category) => total + category.skills.length,
+  0,
+);
+
 export default function Skills() {
   return (
     <section
@@ -60,13 +65,20 @@ export default function Skills() {
       className={`scroll-mt-24 bg-surface ${sectionPadding}`}
     >
       <div className="mx-auto max-w-7xl">
-        <SectionHeading
-          eyebrow="Skills"
-          title="Tools I work with"
-          description="The technologies I use to design, build, and ship full-stack web applications."
-          as="h1"
+        <PageHeader
           id="skills-heading"
-          className="mb-12"
+          eyebrow="Skills"
+          title={
+            <>
+              Tools I <span className="italic text-accent">work</span> with
+            </>
+          }
+          description="The technologies I use to design, build, and ship full-stack web applications."
+          meta={[
+            `${String(categories.length).padStart(2, "0")} categories`,
+            `${String(totalSkills).padStart(2, "0")} skills`,
+            "Frontend + backend",
+          ]}
         />
 
         <Reveal group className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">

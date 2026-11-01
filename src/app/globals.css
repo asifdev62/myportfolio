@@ -137,6 +137,15 @@
   }
 }
 
+@keyframes marquee-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
 /* ------------------------------------------------------------------ */
 /* Motion primitives                                                   */
 /* ------------------------------------------------------------------ */
@@ -261,6 +270,39 @@
     animation-delay: 560ms;
   }
 
+  /* CSS-only technology strip. The list is duplicated in the markup, so
+     translating by -50% loops seamlessly. */
+  .marquee {
+    position: relative;
+  }
+
+  .marquee-mask {
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent,
+      #000 8%,
+      #000 92%,
+      transparent
+    );
+    mask-image: linear-gradient(
+      to right,
+      transparent,
+      #000 8%,
+      #000 92%,
+      transparent
+    );
+  }
+
+  .marquee-track {
+    display: flex;
+    width: max-content;
+    animation: marquee-scroll 38s linear infinite;
+  }
+
+  .marquee:hover .marquee-track,
+  .marquee:focus-within .marquee-track {
+    animation-play-state: paused;
+  }
 }
 
 /* ------------------------------------------------------------------ */
@@ -330,6 +372,25 @@
   .typewriter-underline {
     animation: none !important;
     transform: scaleX(1) !important;
+  }
+
+  /* Turn the marquee into a static, wrapped list instead of scrolling. */
+  .marquee-track {
+    animation: none !important;
+    transform: none !important;
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .marquee-track > :nth-child(2) {
+    display: none;
+  }
+
+  .marquee-track > ul {
+    flex: 1 1 100%;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding-right: 0;
   }
 
   *,

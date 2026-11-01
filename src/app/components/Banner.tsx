@@ -1,5 +1,4 @@
 import ProfilePortrait from "./ProfilePortrait";
-import TechStack from "./TechStack";
 import Typewriter from "./Typewriter";
 import { ButtonLink } from "./ui/Button";
 import { buttonArrow } from "@/app/lib/styles";
@@ -148,7 +147,7 @@ const Banner = () => {
         </div>
       </div>
 
-      <TechStack />
+      <TechMarquee />
     </section>
   );
 };
