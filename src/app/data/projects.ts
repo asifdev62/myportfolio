@@ -33,6 +33,54 @@ export interface Project {
 
 export const projects: Project[] = [
   {
+    slug: "booknook",
+    name: "BookNook",
+    alternateName: "Book Management Platform",
+    tagline:
+      "A full-stack book platform to discover books by category, explore details, and protect member routes with JWT authentication.",
+    summary:
+      "A full-stack book management platform for discovering books, browsing organised categories, and reading book details, with JWT-protected routes.",
+    overview:
+      "BookNook is a full-stack book management platform built with the Next.js App Router. Readers can browse a collection of books, explore them by category, and open individual book pages for more detail. The app pairs a Next.js frontend with a separate Express.js API, uses JWT-based authentication, and relies on Next.js Proxy for request-level route protection.",
+    problem:
+      "Book discovery usually means jumping between storefronts and scattered reading lists, with little structure around categories. BookNook gives readers one organised place to browse books by category and open the details they need, while keeping member-only areas behind authentication.",
+    features: [
+      "Browse a collection of books from the homepage",
+      "Category-based browsing for organised discovery",
+      "Individual book detail pages",
+      "JWT-based authentication for protected resources",
+      "Next.js Proxy checks before protected routes load",
+      "MongoDB-backed book data",
+      "Separate Express.js backend API",
+      "Reusable component structure",
+      "Responsive layout for mobile, tablet, and desktop",
+    ],
+    tech: [
+      "Next.js",
+      "React",
+      "TypeScript",
+      "Tailwind CSS",
+      "Node.js",
+      "Express.js",
+      "MongoDB",
+      "JWT Authentication",
+      "Next.js Proxy",
+    ],
+    implementation:
+      "Split across two repositories: a Next.js App Router frontend and an Express.js backend. The frontend renders the home, category, book-listing, and book-detail views and reads data through the backend's REST API. JWT-based authentication issues tokens for signed-in users, Next.js Proxy performs request-level checks on protected routes, and MongoDB stores the application data.",
+    decisions: [
+      "Kept the frontend and backend in separate repositories so the Next.js UI and the Express API can be developed and deployed independently.",
+      "Used JWT-based authentication with Next.js Proxy for request-level route checks, while keeping the backend responsible for validating tokens on protected endpoints.",
+      "Organised browsing around categories so readers can move from a broad shelf to an individual book quickly.",
+    ],
+    liveUrl: "https://book-nook-ivory.vercel.app/",
+    repoUrl: "https://github.com/asifdev62/BookNook",
+    backendRepoUrl: "https://github.com/asifdev62/BookNook-Server",
+    image: "/booknook.png",
+    imageWidth: 1899,
+    imageHeight: 868,
+  },
+  {
     slug: "wanderlust",
     name: "Wanderlust",
     alternateName: "Travel & Destination Booking Platform",
@@ -268,9 +316,9 @@ export const projects: Project[] = [
 
 /** Projects shown in the "Latest Projects" section, in order. */
 export const latestProjectSlugs = [
+  "booknook",
   "wanderlust",
   "bazar-dor",
-  "bangla-news-24",
 ] as const;
 
 export const latestProjects: Project[] = latestProjectSlugs

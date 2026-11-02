@@ -13,7 +13,7 @@ import {
 import type { IconType } from "react-icons";
 import { FaGithub, FaWhatsapp } from "react-icons/fa";
 import { GrLinkedinOption } from "react-icons/gr";
-import { latestProjects, projects } from "@/app/data/projects";
+import { latestProjects } from "@/app/data/projects";
 import { ButtonLink } from "./ui/Button";
 import { buttonStyles, sectionPadding } from "@/app/lib/styles";
 
@@ -121,8 +121,6 @@ const totalSkills = skillGroups.reduce(
   0,
 );
 
-const latestSlugs = new Set(latestProjects.map((project) => project.slug));
-
 const cardClass =
   "rounded-3xl border border-line bg-white p-6 shadow-[0_24px_60px_-40px_rgba(20,22,16,0.35)] sm:p-9 lg:p-11 print:rounded-none print:border-0 print:p-0 print:shadow-none";
 
@@ -204,7 +202,7 @@ export default function Resume() {
               </p>
 
               <ul className="mt-5 flex flex-wrap gap-2">
-                <li className={statClass}>{projects.length} projects</li>
+                <li className={statClass}>{latestProjects.length} projects</li>
                 <li className={statClass}>{totalSkills} skills</li>
                 <li className={statClass}>BSc in CSE</li>
               </ul>
@@ -357,7 +355,7 @@ export default function Resume() {
           {/* Selected projects */}
           <ResumeSection index="04" title="Selected Projects">
             <ul className="divide-y divide-line">
-              {projects.map((project) => (
+              {latestProjects.map((project) => (
                 <li
                   key={project.slug}
                   className="py-5 first:pt-0 last:pb-0 print:break-inside-avoid"
@@ -366,12 +364,6 @@ export default function Resume() {
                     <h3 className="text-base font-bold tracking-tight text-ink">
                       {project.name}
                     </h3>
-
-                    {latestSlugs.has(project.slug) ? (
-                      <span className="rounded-full bg-accent-soft px-2 py-0.5 font-mono text-[9px] font-semibold uppercase tracking-[0.12em] text-accent">
-                        Latest
-                      </span>
-                    ) : null}
 
                     {project.alternateName ? (
                       <span className="text-xs font-medium text-accent">

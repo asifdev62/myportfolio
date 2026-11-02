@@ -51,30 +51,30 @@ function paragraph(text, options = {}) {
 
 /** Numbered section header with the accent rule, drawn without continued text. */
 function sectionTitle(index, title) {
-  doc.moveDown(0.7);
+  doc.moveDown(1);
 
   const y = doc.y;
   doc
     .font("Helvetica-Bold")
-    .fontSize(8.5)
+    .fontSize(9)
     .fillColor("#9ca3af")
     .text(index, LEFT, y, { lineBreak: false, characterSpacing: 0.6 });
   doc
-    .fontSize(10)
+    .fontSize(10.8)
     .fillColor(GREEN)
-    .text(title.toUpperCase(), LEFT + 20, y, {
+    .text(title.toUpperCase(), LEFT + 21, y, {
       lineBreak: false,
       characterSpacing: 0.9,
     });
 
-  doc.y = y + 13;
+  doc.y = y + 14;
   doc
     .moveTo(LEFT, doc.y)
     .lineTo(LEFT + contentWidth, doc.y)
     .lineWidth(0.6)
     .strokeColor(RULE)
     .stroke();
-  doc.y += 9;
+  doc.y += 10;
 }
 
 /** Light panel with a green left bar, painted behind a section's content. */
@@ -97,25 +97,25 @@ function paneledSection(index, title, text, options = {}) {
 
   const textX = LEFT + 12;
   const textWidth = contentWidth - 24;
-  const fontSize = options.size ?? 9.8;
+  const fontSize = options.size ?? 10.2;
 
   doc.font("Helvetica").fontSize(fontSize);
   const textHeight = doc.heightOfString(text, {
     width: textWidth,
-    lineGap: options.lineGap ?? 2.4,
+    lineGap: options.lineGap ?? 3,
   });
 
   const startY = doc.y;
-  const bottom = startY + textHeight + 20;
+  const bottom = startY + textHeight + 22;
   drawPanel(startY, bottom, options.panel);
 
   doc
     .font("Helvetica")
     .fontSize(fontSize)
     .fillColor(options.color ?? BODY)
-    .text(text, textX, startY + 10, {
+    .text(text, textX, startY + 11, {
       width: textWidth,
-      lineGap: options.lineGap ?? 2.4,
+      lineGap: options.lineGap ?? 3,
     });
 
   doc.y = bottom;
@@ -129,14 +129,14 @@ function linkRow(links) {
   links.forEach((link, index) => {
     if (index > 0) {
       const separator = "   •   ";
-      doc.font("Helvetica").fontSize(9).fillColor(MUTED);
+      doc.font("Helvetica").fontSize(9.4).fillColor(MUTED);
       doc.text(separator, x, y, { lineBreak: false });
       x += doc.widthOfString(separator);
     }
 
     doc
       .font("Helvetica-Bold")
-      .fontSize(9.2)
+      .fontSize(9.8)
       .fillColor(index === 0 ? GREEN : DARK);
 
     const width = doc.widthOfString(link.label);
@@ -150,17 +150,40 @@ function linkRow(links) {
 
 /** A link label placed inline (used in the header). */
 function inlineLink(label, x, y, url, color = GREEN) {
-  doc.font("Helvetica").fontSize(8.8).fillColor(color);
+  doc.font("Helvetica").fontSize(9).fillColor(color);
   const width = doc.widthOfString(label);
   doc.text(label, x, y, { lineBreak: false, underline: true });
   doc.link(x, y - 1, width, doc.currentLineHeight() + 2, url);
   return x + width;
 }
 
+/** Small footer pinned to the bottom margin of the page. */
+function syncResumeFooter() {
+  const ruleY = doc.page.height - doc.page.margins.bottom - 20;
+
+  doc
+    .moveTo(LEFT, ruleY)
+    .lineTo(LEFT + contentWidth, ruleY)
+    .lineWidth(0.4)
+    .strokeColor(HAIRLINE)
+    .stroke();
+
+  doc
+    .font("Helvetica")
+    .fontSize(7.8)
+    .fillColor(MUTED)
+    .text(
+      "Asif Ali  ·  Full-Stack Web Developer  ·  asif62n@gmail.com  ·  github.com/asifdev62",
+      LEFT,
+      ruleY + 5,
+      { width: contentWidth, align: "center" },
+    );
+}
+
 // ---------------------------------------------------------------------------
 // Header (circular photo + identity + contact)
 // ---------------------------------------------------------------------------
-const photoSize = 62;
+const photoSize = 66;
 const headerY = doc.page.margins.top;
 const photoCenterX = LEFT + photoSize / 2;
 const photoCenterY = headerY + photoSize / 2;
@@ -180,13 +203,13 @@ const textWidth = contentWidth - photoSize - 18;
 
 doc
   .font("Times-Bold")
-  .fontSize(26)
+  .fontSize(28)
   .fillColor(DARK)
   .text("Asif Ali", textX, headerY + 1, { width: textWidth });
 
 doc
   .font("Helvetica-Bold")
-  .fontSize(8.8)
+  .fontSize(9.2)
   .fillColor(GREEN)
   .text("FULL-STACK WEB DEVELOPER", textX, doc.y + 2, {
     width: textWidth,
@@ -195,7 +218,7 @@ doc
 
 doc
   .font("Helvetica")
-  .fontSize(8.8)
+  .fontSize(9.1)
   .fillColor(MUTED)
   .text(
     "asif62n@gmail.com  •  01823059188  •  Mirpur, Dhaka, Bangladesh",
@@ -212,7 +235,7 @@ linkX = inlineLink(
   linksY,
   "https://www.linkedin.com/in/asifali62",
 );
-doc.font("Helvetica").fontSize(8.8).fillColor(MUTED);
+doc.font("Helvetica").fontSize(9).fillColor(MUTED);
 doc.text("   •   ", linkX, linksY, { lineBreak: false });
 linkX += doc.widthOfString("   •   ");
 inlineLink("github.com/asifdev62", linkX, linksY, "https://github.com/asifdev62");
@@ -254,24 +277,24 @@ const skillGroups = [
 
 for (const [label, value] of skillGroups) {
   const y = doc.y;
-  doc.rect(LEFT + 1, y + 4, 3, 3).fillColor(GREEN).fill();
+  doc.rect(LEFT + 1, y + 4.5, 3.4, 3.4).fillColor(GREEN).fill();
 
   doc
     .font("Helvetica-Bold")
-    .fontSize(9.2)
+    .fontSize(9.8)
     .fillColor(DARK)
-    .text(`${label}: `, LEFT + 9, y, { lineBreak: false });
+    .text(`${label}: `, LEFT + 10, y, { lineBreak: false });
 
   const labelWidth = doc.widthOfString(`${label}: `);
   doc
     .font("Helvetica")
-    .fontSize(9.2)
+    .fontSize(9.8)
     .fillColor(BODY)
-    .text(value, LEFT + 9 + labelWidth, y, {
-      width: contentWidth - 9 - labelWidth,
-      lineGap: 1.6,
+    .text(value, LEFT + 10 + labelWidth, y, {
+      width: contentWidth - 10 - labelWidth,
+      lineGap: 2.2,
     });
-  doc.moveDown(0.12);
+  doc.moveDown(0.3);
 }
 
 // ---------------------------------------------------------------------------
@@ -283,65 +306,65 @@ const educationText =
   "My studies focus on the fundamentals of software engineering — programming, data structures, algorithms, and databases — which I apply directly in the full-stack web applications I build.";
 const educationTextWidth = contentWidth - 24;
 
-doc.font("Times-Bold").fontSize(12.5);
+doc.font("Times-Bold").fontSize(13.5);
 const degreeHeight = doc.heightOfString(
   "Bachelor of Science in Computer Science and Engineering",
   { width: educationTextWidth },
 );
-doc.font("Helvetica-Bold").fontSize(8);
+doc.font("Helvetica-Bold").fontSize(8.6);
 const universityHeight = doc.heightOfString(
   "BSC IN CSE  ·  ASIAN UNIVERSITY OF BANGLADESH",
   { width: educationTextWidth, characterSpacing: 0.7 },
 );
-doc.font("Helvetica").fontSize(9.4);
+doc.font("Helvetica").fontSize(9.9);
 const descriptionHeight = doc.heightOfString(educationText, {
   width: educationTextWidth,
-  lineGap: 2,
+  lineGap: 2.2,
 });
 
 const educationY = doc.y;
 const educationBottom =
   educationY +
-  10 +
+  11 +
   degreeHeight +
-  3 +
+  4 +
   universityHeight +
-  5 +
+  6 +
   descriptionHeight +
-  10;
+  11;
 drawPanel(educationY, educationBottom);
 
 doc
   .font("Times-Bold")
-  .fontSize(12.5)
+  .fontSize(13.5)
   .fillColor(DARK)
   .text(
     "Bachelor of Science in Computer Science and Engineering",
     LEFT + 12,
-    educationY + 10,
+    educationY + 11,
     { width: educationTextWidth },
   );
 
 doc
   .font("Helvetica-Bold")
-  .fontSize(8)
+  .fontSize(8.6)
   .fillColor(GREEN)
   .text(
     "BSC IN CSE  ·  ASIAN UNIVERSITY OF BANGLADESH",
     LEFT + 12,
-    educationY + 10 + degreeHeight + 3,
+    educationY + 11 + degreeHeight + 4,
     { width: educationTextWidth, characterSpacing: 0.7 },
   );
 
 doc
   .font("Helvetica")
-  .fontSize(9.4)
+  .fontSize(9.9)
   .fillColor(MUTED)
   .text(
     educationText,
     LEFT + 12,
-    educationY + 10 + degreeHeight + 3 + universityHeight + 5,
-    { width: educationTextWidth, lineGap: 2 },
+    educationY + 11 + degreeHeight + 4 + universityHeight + 6,
+    { width: educationTextWidth, lineGap: 2.2 },
   );
 
 doc.y = educationBottom;
@@ -351,9 +374,16 @@ doc.y = educationBottom;
 // ---------------------------------------------------------------------------
 sectionTitle("04", "Selected Projects");
 
-const latestNames = new Set(["Wanderlust", "Bazar Dor", "Bangla News 24"]);
-
 const selectedProjects = [
+  {
+    name: "BookNook",
+    description:
+      "Full-stack book platform to discover books, browse organised categories, and view details, with JWT authentication and proxy-protected routes.",
+    live: "https://book-nook-ivory.vercel.app/",
+    repo: "https://github.com/asifdev62/BookNook",
+    backend: "https://github.com/asifdev62/BookNook-Server",
+    tech: "Next.js · React · TypeScript · Tailwind CSS · Express.js · MongoDB · JWT",
+  },
   {
     name: "Wanderlust",
     description:
@@ -371,66 +401,30 @@ const selectedProjects = [
     repo: "https://github.com/asifdev62/bazar-dor.git",
     tech: "Next.js · React · TypeScript · Tailwind CSS · REST API",
   },
-  {
-    name: "Bangla News 24",
-    description:
-      "Bengali news platform to browse articles by category with authenticated user accounts and profiles.",
-    live: "https://bangla-news24-kappa.vercel.app/",
-    repo: "https://github.com/asifdev62/banglaNews24.git",
-    tech: "Next.js · React · TypeScript · Tailwind CSS · MongoDB · Better Auth",
-  },
-  {
-    name: "FitLog",
-    description:
-      "Workout planner to build a daily plan of up to five workouts, save routines for later, and track completion.",
-    live: "https://fitlog-black-two.vercel.app/",
-    repo: "https://github.com/asifdev62/FitLog-in-Next.js.git",
-    tech: "Next.js · TypeScript · Tailwind CSS · React Context · localStorage",
-  },
-  {
-    name: "Book Vibe",
-    description:
-      "Book discovery app to explore titles, read details and reviews, and organise reading lists and wishlists.",
-    live: "https://bookvibe-sigma.vercel.app/",
-    repo: "https://github.com/asifdev62/Book-Vibe-in-Next.js.git",
-    tech: "Next.js · TypeScript · Tailwind CSS · DaisyUI · Recharts",
-  },
 ];
 
 selectedProjects.forEach((project, index) => {
   if (index > 0) {
-    doc.y += 6;
+    doc.y += 10;
     doc
       .moveTo(LEFT, doc.y)
       .lineTo(LEFT + contentWidth, doc.y)
       .lineWidth(0.4)
       .strokeColor(HAIRLINE)
       .stroke();
-    doc.y += 10;
+    doc.y += 14;
   }
 
   const nameY = doc.y;
   doc
     .font("Helvetica-Bold")
-    .fontSize(10.8)
+    .fontSize(12)
     .fillColor(DARK)
     .text(project.name, LEFT, nameY, { lineBreak: false });
 
-  if (latestNames.has(project.name)) {
-    const nameWidth = doc.widthOfString(project.name);
-    doc
-      .font("Helvetica-Bold")
-      .fontSize(7)
-      .fillColor(GREEN)
-      .text("LATEST", LEFT + nameWidth + 6, nameY + 2, {
-        lineBreak: false,
-        characterSpacing: 0.8,
-      });
-  }
-
-  doc.y = nameY + 13;
-  paragraph(project.description, { size: 9.5, lineGap: 2 });
-  paragraph(project.tech, { size: 8.6, color: MUTED });
+  doc.y = nameY + 15;
+  paragraph(project.description, { size: 10.1, lineGap: 2.3 });
+  paragraph(project.tech, { size: 9.1, color: MUTED });
 
   linkRow(
     [
@@ -440,6 +434,8 @@ selectedProjects.forEach((project, index) => {
     ].filter(Boolean),
   );
 });
+
+syncResumeFooter();
 
 doc.end();
 

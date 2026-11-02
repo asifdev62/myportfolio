@@ -22,7 +22,7 @@ export default function Projects() {
               All <span className="italic text-accent">projects</span>
             </>
           }
-          description="Five projects spanning travel, market data, news, fitness, and reading. Each one links to its live demo, source code, and a detailed case study."
+          description="Six projects spanning books, travel, market data, news, fitness, and reading. Each one links to its live demo, source code, and a detailed case study."
           meta={[
             `${String(projects.length).padStart(2, "0")} projects`,
             "Live demos",
