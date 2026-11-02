@@ -1,5 +1,5 @@
 export type ButtonVariant = "primary" | "secondary" | "ghost";
-export type ButtonSize = "sm" | "md" | "lg" | "icon";
+export type ButtonSize = "xs" | "sm" | "md" | "lg" | "icon" | "iconSm";
 
 const buttonBase =
   "group/btn inline-flex shrink-0 items-center justify-center gap-2 rounded-xl font-semibold transition duration-200 ease-out-quint focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent disabled:pointer-events-none disabled:opacity-60";
@@ -13,10 +13,12 @@ const buttonVariants: Record<ButtonVariant, string> = {
 };
 
 const buttonSizes: Record<ButtonSize, string> = {
+  xs: "px-3.5 py-2 text-xs",
   sm: "px-4 py-2.5 text-sm",
   md: "px-6 py-3.5 text-sm",
   lg: "px-7 py-4 text-base",
   icon: "h-10 w-10 text-lg",
+  iconSm: "h-8 w-8 text-base",
 };
 
 export function buttonStyles({
@@ -37,3 +39,10 @@ export const sectionPadding =
 /** Arrow used inside buttons; slides with the button's named `group/btn`. */
 export const buttonArrow =
   "transition-transform duration-200 ease-out-quint group-hover/btn:-translate-y-0.5 group-hover/btn:translate-x-0.5";
+
+/**
+ * Shared project grid. Every project listing (home + /projects) uses it so the
+ * cards keep exactly the same size and stay in a compact, centred column.
+ */
+export const projectGrid =
+  "mx-auto grid max-w-4xl gap-4 sm:grid-cols-2 lg:grid-cols-3";

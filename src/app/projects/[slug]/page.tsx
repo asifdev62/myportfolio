@@ -8,6 +8,7 @@ import {
   FiArrowUpRight,
   FiCheck,
   FiGithub,
+  FiServer,
 } from "react-icons/fi";
 import {
   getProject,
@@ -16,7 +17,7 @@ import {
 } from "@/app/data/projects";
 import ProjectCard from "@/app/components/ProjectCard";
 import Reveal from "@/app/components/Reveal";
-import { buttonArrow } from "@/app/lib/styles";
+import { buttonArrow, projectGrid } from "@/app/lib/styles";
 import { ButtonLink } from "@/app/components/ui/Button";
 
 export function generateStaticParams() {
@@ -112,6 +113,17 @@ export default async function ProjectDetailsPage(
               <FiGithub aria-hidden="true" size={18} />
               GitHub repository
             </ButtonLink>
+
+            {project.backendRepoUrl ? (
+              <ButtonLink
+                href={project.backendRepoUrl}
+                external
+                variant="secondary"
+              >
+                <FiServer aria-hidden="true" size={18} />
+                Backend repository
+              </ButtonLink>
+            ) : null}
           </div>
 
           {project.image ? (
@@ -236,7 +248,7 @@ export default async function ProjectDetailsPage(
             More of the work I&apos;ve built.
           </p>
 
-          <Reveal group className="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+          <Reveal group className={`mt-10 ${projectGrid}`}>
             {relatedProjects.map((related) => (
               <ProjectCard key={related.slug} project={related} />
             ))}

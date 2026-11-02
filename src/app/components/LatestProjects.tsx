@@ -3,7 +3,7 @@ import ProjectCard from "./ProjectCard";
 import Reveal from "./Reveal";
 import { latestProjects } from "@/app/data/projects";
 import { FiArrowUpRight } from "react-icons/fi";
-import { buttonArrow, sectionPadding } from "@/app/lib/styles";
+import { buttonArrow, projectGrid, sectionPadding } from "@/app/lib/styles";
 import { ButtonLink } from "./ui/Button";
 
 export default function LatestProjects() {
@@ -16,21 +16,15 @@ export default function LatestProjects() {
         <SectionHeading
           eyebrow="Recent work"
           title="Latest projects"
-          description="A closer look at what I have been building most recently — two full-stack applications with live demos and source code."
+          description="A closer look at what I have been building most recently — three applications with live demos and source code."
           id="latest-projects-heading"
           className="mb-12"
         />
 
-        {/* Centered flex tracks mirror the Projects grid columns so the
-            featured cards keep the exact same size; a partial row centers. */}
-        <Reveal group className="flex flex-wrap justify-center gap-6">
+        {/* Same grid as /projects, so featured cards keep an identical size. */}
+        <Reveal group className={projectGrid}>
           {latestProjects.map((project) => (
-            <div
-              key={project.slug}
-              className="h-full w-full md:w-[calc(50%_-_0.75rem)] xl:w-[calc(33.333%_-_1rem)]"
-            >
-              <ProjectCard project={project} featured />
-            </div>
+            <ProjectCard key={project.slug} project={project} featured />
           ))}
         </Reveal>
 

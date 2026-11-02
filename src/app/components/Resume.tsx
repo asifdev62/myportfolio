@@ -1,16 +1,19 @@
 import Image from "next/image";
+import type { ReactNode } from "react";
 import {
+  FiArrowUpRight,
   FiDownload,
-  FiExternalLink,
   FiEye,
+  FiGithub,
   FiMail,
   FiMapPin,
   FiPhone,
+  FiServer,
 } from "react-icons/fi";
 import type { IconType } from "react-icons";
 import { FaGithub, FaWhatsapp } from "react-icons/fa";
 import { GrLinkedinOption } from "react-icons/gr";
-import { projects } from "@/app/data/projects";
+import { latestProjects, projects } from "@/app/data/projects";
 import { ButtonLink } from "./ui/Button";
 import { buttonStyles, sectionPadding } from "@/app/lib/styles";
 
@@ -99,6 +102,13 @@ const skillGroups = [
   },
 ];
 
+const strengths = [
+  "Full-stack development",
+  "REST API integration",
+  "Authentication",
+  "Responsive UI",
+];
+
 const education = {
   degree: "Bachelor of Science in Computer Science and Engineering",
   detail: "BSc in CSE \u00b7 Asian University of Bangladesh",
@@ -106,17 +116,45 @@ const education = {
     "My studies focus on the fundamentals of software engineering \u2014 programming, data structures, algorithms, and databases \u2014 which I apply directly in the full-stack web applications featured on this site.",
 };
 
+const totalSkills = skillGroups.reduce(
+  (total, group) => total + group.skills.length,
+  0,
+);
+
+const latestSlugs = new Set(latestProjects.map((project) => project.slug));
+
 const cardClass =
-  "rounded-3xl border border-line bg-white p-8 shadow-[0_24px_60px_-40px_rgba(20,22,16,0.35)] sm:p-10 lg:p-12 print:rounded-none print:border-0 print:p-0 print:shadow-none";
+  "rounded-3xl border border-line bg-white p-6 shadow-[0_24px_60px_-40px_rgba(20,22,16,0.35)] sm:p-9 lg:p-11 print:rounded-none print:border-0 print:p-0 print:shadow-none";
 
 const chipClass =
-  "rounded-lg border border-line bg-surface px-3 py-1.5 text-xs font-medium text-ink-soft";
+  "rounded-md border border-line/70 bg-surface px-2 py-1 text-[11px] font-medium text-ink-soft";
 
-function ResumeSectionTitle({ children }: { children: string }) {
+const statClass =
+  "rounded-full border border-line bg-surface px-3 py-1 font-mono text-[10px] font-medium uppercase tracking-[0.14em] text-muted";
+
+function ResumeSection({
+  index,
+  title,
+  children,
+}: {
+  index: string;
+  title: string;
+  children: ReactNode;
+}) {
   return (
-    <h2 className="font-mono text-[10px] font-semibold uppercase tracking-[0.2em] text-accent">
-      {children}
-    </h2>
+    <section className="border-b border-line py-8 last:border-0 last:pb-0">
+      <div className="flex items-center gap-3">
+        <span className="font-mono text-[10px] font-semibold tracking-[0.18em] text-accent/50">
+          {index}
+        </span>
+        <h2 className="font-mono text-[10px] font-semibold uppercase tracking-[0.2em] text-accent">
+          {title}
+        </h2>
+        <span aria-hidden="true" className="h-px flex-1 bg-line" />
+      </div>
+
+      <div className="mt-5">{children}</div>
+    </section>
   );
 }
 
@@ -132,16 +170,21 @@ export default function Resume() {
             printed page starts directly with the resume document. */}
         <div className={`${cardClass} print:hidden`}>
           <div className="grid items-center gap-8 sm:grid-cols-[auto_1fr] lg:gap-12">
-            <div className="mx-auto h-32 w-32 shrink-0 overflow-hidden rounded-full border-2
-             border-accent bg-surface shadow-[0_24px_50px_-32px_rgba(20,22,16,0.35)] sm:h-36 sm:w-36 lg:h-40 lg:w-40 print:border-0 print:shadow-none">
-              <Image
-                src="/my.png"
-                alt="Portrait of Asif Ali"
-                width={720}
-                height={987}
-                priority
-                className="h-full w-full object-cover object-top"
+            <div className="relative mx-auto shrink-0">
+              <span
+                aria-hidden="true"
+                className="absolute inset-0 -z-10 scale-110 rounded-full bg-accent-soft blur-xl"
               />
+              <div className="h-32 w-32 overflow-hidden rounded-full ring-4 ring-accent-soft sm:h-36 sm:w-36 lg:h-40 lg:w-40">
+                <Image
+                  src="/my.png"
+                  alt="Portrait of Asif Ali"
+                  width={720}
+                  height={987}
+                  priority
+                  className="h-full w-full object-cover object-top"
+                />
+              </div>
             </div>
 
             <div>
@@ -160,14 +203,20 @@ export default function Resume() {
                 or download a copy to keep.
               </p>
 
+              <ul className="mt-5 flex flex-wrap gap-2">
+                <li className={statClass}>{projects.length} projects</li>
+                <li className={statClass}>{totalSkills} skills</li>
+                <li className={statClass}>BSc in CSE</li>
+              </ul>
+
               <div className="mt-8 flex flex-col gap-3 sm:flex-row print:hidden">
-                <ButtonLink href="/resume.pdf" external>
+                <ButtonLink href="/resume.pdf?v=2" external>
                   <FiEye aria-hidden="true" size={18} />
                   View resume
                 </ButtonLink>
 
                 <a
-                  href="/resume.pdf"
+                  href="/resume.pdf?v=2"
                   download="Asif-Ali-Resume.pdf"
                   className={buttonStyles({ variant: "secondary" })}
                 >
@@ -179,15 +228,18 @@ export default function Resume() {
           </div>
         </div>
 
-        {/* Resume document */}
+        {/* Resume document. Kept as plain divs: the global print stylesheet
+            hides real <header>/<footer> elements. */}
         <div className={cardClass}>
           {/* Identity + contact details */}
           <div className="flex flex-col gap-6 border-b border-line pb-8 sm:flex-row sm:items-start sm:justify-between print:break-inside-avoid">
             <div>
-              <h2 className="font-display text-3xl leading-none tracking-[-0.01em] text-ink sm:text-4xl">
+              <span aria-hidden="true" className="block h-1 w-10 rounded-full bg-accent" />
+              <h2 className="mt-4 font-display text-[clamp(2rem,4vw,2.75rem)] leading-none tracking-[-0.01em] text-ink">
                 Asif Ali
               </h2>
-              <p className="mt-2 font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-accent">
+              <p className="mt-3 inline-flex items-center gap-2 rounded-full bg-accent-soft px-3 py-1 font-mono text-[10px] font-semibold uppercase tracking-[0.16em] text-accent">
+                <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-accent" />
                 Full-Stack Web Developer
               </p>
             </div>
@@ -237,29 +289,45 @@ export default function Resume() {
           </div>
 
           {/* Professional summary */}
-          <div className="border-b border-line py-8 print:break-inside-avoid">
-            <ResumeSectionTitle>Professional Summary</ResumeSectionTitle>
-            <p className="mt-4 text-sm leading-7 text-muted sm:text-base">
-              Full-Stack Web Developer passionate about building modern,
-              responsive, and user-focused web applications. Experienced in
-              working with JavaScript, TypeScript, React.js, Next.js, Tailwind
-              CSS, API integration, and authentication. Focused on writing
-              clean, maintainable code and continuously improving development
-              skills through practical projects.
-            </p>
-          </div>
+          <ResumeSection index="01" title="Professional Summary">
+            <div className="rounded-2xl border border-line border-l-2 border-l-accent bg-surface p-5 sm:p-6">
+              <p className="text-sm leading-7 text-ink-soft sm:text-[15px] sm:leading-8">
+                Full-Stack Web Developer passionate about building modern,
+                responsive, and user-focused web applications. Experienced in
+                working with JavaScript, TypeScript, React.js, Next.js, Tailwind
+                CSS, API integration, and authentication. Focused on writing
+                clean, maintainable code and continuously improving development
+                skills through practical projects.
+              </p>
+
+              <ul className="mt-4 flex flex-wrap gap-1.5">
+                {strengths.map((strength) => (
+                  <li
+                    key={strength}
+                    className="rounded-md bg-white px-2 py-1 text-[11px] font-medium text-accent ring-1 ring-inset ring-accent/15"
+                  >
+                    {strength}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </ResumeSection>
 
           {/* Technical skills */}
-          <div className="border-b border-line py-8 print:break-inside-avoid">
-            <ResumeSectionTitle>Technical Skills</ResumeSectionTitle>
-
-            <div className="mt-6 grid gap-6 sm:grid-cols-2">
+          <ResumeSection index="02" title="Technical Skills">
+            <div className="grid gap-6 sm:grid-cols-2">
               {skillGroups.map((group) => (
                 <div key={group.title}>
-                  <h3 className="text-sm font-semibold text-ink">
-                    {group.title}
-                  </h3>
-                  <ul className="mt-3 flex flex-wrap gap-2">
+                  <div className="flex items-center gap-2">
+                    <span
+                      aria-hidden="true"
+                      className="h-1.5 w-1.5 rounded-full bg-accent"
+                    />
+                    <h3 className="font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-ink-soft">
+                      {group.title}
+                    </h3>
+                  </div>
+                  <ul className="mt-3 flex flex-wrap gap-1.5">
                     {group.skills.map((skill) => (
                       <li key={skill} className={chipClass}>
                         {skill}
@@ -269,76 +337,97 @@ export default function Resume() {
                 </div>
               ))}
             </div>
-          </div>
+          </ResumeSection>
 
           {/* Education */}
-          <div className="border-b border-line py-8 print:break-inside-avoid">
-            <ResumeSectionTitle>Education</ResumeSectionTitle>
-
-            <div className="mt-4">
+          <ResumeSection index="03" title="Education">
+            <div className="rounded-2xl border border-line border-l-2 border-l-accent bg-surface p-5 sm:p-6">
               <h3 className="font-display text-2xl leading-tight tracking-[-0.01em] text-ink">
                 {education.degree}
               </h3>
-              <p className="mt-1.5 text-sm font-semibold text-accent">
+              <p className="mt-2 font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-accent">
                 {education.detail}
               </p>
               <p className="mt-3 text-sm leading-7 text-muted">
                 {education.description}
               </p>
             </div>
-          </div>
+          </ResumeSection>
 
           {/* Selected projects */}
-          <div className="pt-8">
-            <ResumeSectionTitle>Selected Projects</ResumeSectionTitle>
-
-            <ul className="mt-6 space-y-6">
+          <ResumeSection index="04" title="Selected Projects">
+            <ul className="divide-y divide-line">
               {projects.map((project) => (
-                <li key={project.slug} className="print:break-inside-avoid">
-                  <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                <li
+                  key={project.slug}
+                  className="py-5 first:pt-0 last:pb-0 print:break-inside-avoid"
+                >
+                  <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1">
                     <h3 className="text-base font-bold tracking-tight text-ink">
                       {project.name}
                     </h3>
+
+                    {latestSlugs.has(project.slug) ? (
+                      <span className="rounded-full bg-accent-soft px-2 py-0.5 font-mono text-[9px] font-semibold uppercase tracking-[0.12em] text-accent">
+                        Latest
+                      </span>
+                    ) : null}
+
                     {project.alternateName ? (
-                      <span className="text-sm font-medium text-accent">
+                      <span className="text-xs font-medium text-accent">
                         {project.alternateName}
                       </span>
                     ) : null}
                   </div>
 
-                  <p className="mt-1 text-sm leading-7 text-muted">
+                  <p className="mt-1.5 text-sm leading-7 text-muted">
                     {project.tagline}
                   </p>
 
-                  <p className="mt-2 font-mono text-[10px] leading-6 uppercase tracking-[0.1em] text-muted">
-                    Technologies: {project.tech.join(", ")}
-                  </p>
+                  <ul className="mt-3 flex flex-wrap gap-1.5">
+                    {project.tech.map((tech) => (
+                      <li key={tech} className={chipClass}>
+                        {tech}
+                      </li>
+                    ))}
+                  </ul>
 
-                  <div className="mt-2 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm">
-                    <a
+                  <div className="mt-3.5 flex flex-wrap items-center gap-2">
+                    <ButtonLink
                       href={project.liveUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 font-semibold text-accent transition hover:text-accent-strong"
+                      external
+                      size="xs"
                     >
-                      Live Demo
-                      <FiExternalLink aria-hidden="true" size={14} />
-                    </a>
+                      Live demo
+                      <FiArrowUpRight aria-hidden="true" size={13} />
+                    </ButtonLink>
 
-                    <a
+                    <ButtonLink
                       href={project.repoUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 font-semibold text-ink-soft transition hover:text-accent"
+                      external
+                      variant="secondary"
+                      size="xs"
                     >
-                      GitHub
-                      <FiExternalLink aria-hidden="true" size={14} />
-                    </a>
+                      <FiGithub aria-hidden="true" size={13} />
+                      Code
+                    </ButtonLink>
+
+                    {project.backendRepoUrl ? (
+                      <ButtonLink
+                        href={project.backendRepoUrl}
+                        external
+                        variant="secondary"
+                        size="xs"
+                      >
+                        <FiServer aria-hidden="true" size={13} />
+                        Backend
+                      </ButtonLink>
+                    ) : null}
                   </div>
                 </li>
               ))}
             </ul>
-          </div>
+          </ResumeSection>
         </div>
       </div>
     </section>

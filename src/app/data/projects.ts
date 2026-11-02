@@ -21,6 +21,8 @@ export interface Project {
   decisions: string[];
   liveUrl: string;
   repoUrl: string;
+  /** Set when the project's API/backend lives in a separate repository. */
+  backendRepoUrl?: string;
   /** Only set when a real screenshot exists in /public. */
   image?: string;
   /** Intrinsic width of `image`, used to reserve the correct aspect ratio. */
@@ -30,6 +32,55 @@ export interface Project {
 }
 
 export const projects: Project[] = [
+  {
+    slug: "wanderlust",
+    name: "Wanderlust",
+    alternateName: "Travel & Destination Booking Platform",
+    tagline:
+      "A full-stack travel platform to explore destinations, discover new places, and manage travel bookings with a modern, user-friendly experience.",
+    summary:
+      "A full-stack travel and destination booking platform for exploring destinations, adding new places, and managing travel bookings.",
+    overview:
+      "Wanderlust is a full-stack travel web application that helps users discover destinations and manage travel bookings. Visitors can browse destinations from different countries, open detail pages with prices, durations, and descriptions, explore destinations by category such as beaches, mountains, cities, adventure, and culture, add new destinations, and submit bookings through an authenticated account.",
+    problem:
+      "Trip research and booking details are usually spread across several sites and notes, which makes destinations hard to compare and bookings easy to lose track of. Wanderlust brings discovery and booking into a single interface, with categories for narrowing the options and an account layer that keeps booking information together.",
+    features: [
+      "Explore travel destinations from different countries",
+      "Destination detail pages with descriptions, prices, and durations",
+      "Category-based browsing for beaches, mountains, cities, adventure, and culture",
+      "Add new destinations to the platform",
+      "Submit travel bookings for a selected destination",
+      "Authentication with Better Auth (sign in / sign up)",
+      "Booking management with access to travel booking information",
+      "REST API integration with a separate Express.js backend",
+      "Destination and booking data stored in MongoDB",
+      "Responsive layout for mobile, tablet, and desktop",
+    ],
+    tech: [
+      "Next.js",
+      "React",
+      "TypeScript",
+      "Tailwind CSS",
+      "Node.js",
+      "Express.js",
+      "MongoDB",
+      "Better Auth",
+      "REST API",
+    ],
+    implementation:
+      "Split across two repositories: a Next.js App Router frontend and an Express.js backend. The frontend renders the home, destination listing, destination detail, add-destination, booking, and authentication views, and reads and writes data through the REST API exposed by the Express server. Destinations and booking records are stored in MongoDB, while Better Auth handles sign-in, sign-up, sessions, and the routes that require an account.",
+    decisions: [
+      "Separated the frontend and backend into their own repositories so the Next.js UI and the Express API can be developed and deployed independently.",
+      "Modelled destinations with country, category, price, duration, departure date, and image fields so the same records power the listing, detail, and booking views.",
+      "Used Better Auth for authentication so booking-related views are only reachable by signed-in users.",
+    ],
+    liveUrl: "https://wanderlust-gamma-pink.vercel.app/",
+    repoUrl: "https://github.com/asifdev62/Wanderlust",
+    backendRepoUrl: "https://github.com/asifdev62/wanderlust-server",
+    image: "/wanderlust.png",
+    imageWidth: 1891,
+    imageHeight: 827,
+  },
   {
     slug: "bazar-dor",
     name: "Bazar Dor",
@@ -216,7 +267,11 @@ export const projects: Project[] = [
 ];
 
 /** Projects shown in the "Latest Projects" section, in order. */
-export const latestProjectSlugs = ["bazar-dor", "bangla-news-24"] as const;
+export const latestProjectSlugs = [
+  "wanderlust",
+  "bazar-dor",
+  "bangla-news-24",
+] as const;
 
 export const latestProjects: Project[] = latestProjectSlugs
   .map((slug) => projects.find((project) => project.slug === slug))
