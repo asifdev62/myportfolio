@@ -34,7 +34,7 @@ Single Next.js App Router portfolio site (no backend, no tests). Package manager
 
 The site is multi-page: `Navbar` and `Footer` live in `src/app/layout.tsx` (wrapped around `<main className="flex-1">`) and must never be duplicated per page.
 
-- `src/app/page.tsx` — home; `Banner` + `LatestProjects` only. Keep it minimal.
+- `src/app/page.tsx` — home; `Banner` + `WhatIDo` + `LatestProjects` + `CurrentlyExploring` + `ConnectCTA`, in that order. Keep it focused on the hero, capabilities, work, learning, and a closing contact CTA.
 - Dedicated routes: `/about` (`About` + `Education`), `/projects`, `/projects/[slug]`, `/skills`, `/resume`, `/contact`.
 - `src/app/components/` — one server component per section, rendered by its page. Only `Navbar`, `Contact`, `Reveal`, and `Typewriter` are `"use client"`; the rest are server components (`CopyrightYear` is `async` + `"use cache"`). `ProjectCard`/`SectionHeading`/`PageHeader`/`ProfilePortrait` are shared. Keep `Reveal` a thin wrapper so section content stays server-rendered.
 - Shared styling lives in `src/app/lib/styles.ts` (`buttonStyles`, `sectionPadding`, `buttonArrow`); use `ui/Button`'s `Button`/`ButtonLink` instead of re-creating button classes. `src/app/lib/motion.ts` exports `revealDelay(ms)` for inline `--reveal-delay` values.

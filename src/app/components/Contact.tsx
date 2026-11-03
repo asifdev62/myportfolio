@@ -3,7 +3,7 @@
 import { useId, useState } from "react";
 import type { FormEvent } from "react";
 import type { IconType } from "react-icons";
-import { FiMail, FiMapPin, FiPhone, FiSend } from "react-icons/fi";
+import { FiArrowUpRight, FiMail, FiMapPin, FiPhone, FiSend } from "react-icons/fi";
 import { FaGithub, FaWhatsapp } from "react-icons/fa";
 import { GrLinkedinOption } from "react-icons/gr";
 import Reveal from "./Reveal";
@@ -143,12 +143,12 @@ export default function Contact() {
 
           <h1
             id="contact-heading"
-            className="mt-5 font-display text-[clamp(2.2rem,4.5vw,3.5rem)] leading-[1.02] tracking-[-0.02em] text-ink"
+            className="mt-5 text-balance font-display text-[clamp(2.2rem,4.5vw,3.5rem)] leading-[1.02] tracking-[-0.02em] text-ink"
           >
             Let&apos;s work together
           </h1>
 
-          <p className="mt-4 max-w-xl text-base leading-8 text-muted sm:text-lg">
+          <p className="mt-4 max-w-xl text-pretty text-base leading-8 text-muted sm:text-lg">
             Have a project in mind, or want to talk about a development
             opportunity? Send me a message and I&apos;ll get back to you.
           </p>
@@ -172,6 +172,14 @@ export default function Contact() {
                         {value}
                       </span>
                     </span>
+
+                    <span className="ml-auto flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-line bg-white text-ink-soft transition duration-200 ease-out-quint group-hover:border-accent group-hover:text-accent">
+                      <FiArrowUpRight
+                        aria-hidden="true"
+                        size={15}
+                        className="transition-transform duration-200 ease-out-quint group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                      />
+                    </span>
                   </a>
                 ) : (
                   <div className="flex items-center gap-4 rounded-2xl border border-line bg-surface p-5">
@@ -192,7 +200,11 @@ export default function Contact() {
             ))}
           </ul>
 
-          <div className="mt-6 flex items-center gap-3">
+          <div className="mt-6 flex flex-wrap items-center gap-3">
+            <span className="font-mono text-[10px] font-medium uppercase tracking-[0.2em] text-muted">
+              Find me on
+            </span>
+
             {socials.map(({ label, href, Icon, ariaLabel, title }) => (
               <a
                 key={label}
@@ -207,6 +219,14 @@ export default function Contact() {
               </a>
             ))}
           </div>
+
+          <p className="mt-6 inline-flex items-center gap-2 rounded-full border border-accent/20 bg-accent-soft px-3 py-1.5 font-mono text-[10px] font-medium uppercase tracking-[0.16em] text-accent">
+            <span
+              aria-hidden="true"
+              className="h-1.5 w-1.5 rounded-full bg-accent"
+            />
+            Available for opportunities
+          </p>
         </Reveal>
 
         {/* Right: contact form */}
@@ -214,8 +234,27 @@ export default function Contact() {
           <form
             onSubmit={handleSubmit}
             noValidate
-            className="rounded-3xl border border-line bg-surface p-6 shadow-[0_24px_60px_-40px_rgba(20,22,16,0.35)] sm:p-8"
+            aria-labelledby="contact-form-heading"
+            className="relative overflow-hidden rounded-3xl border border-line bg-surface p-6 shadow-[0_24px_60px_-40px_rgba(20,22,16,0.35)] sm:p-8"
           >
+            <span
+              aria-hidden="true"
+              className="absolute inset-x-0 top-0 h-0.5 bg-accent/70"
+            />
+
+            <div className="mb-6">
+              <p className="eyebrow">Message</p>
+              <h2
+                id="contact-form-heading"
+                className="mt-2 font-display text-2xl leading-tight tracking-[-0.01em] text-ink sm:text-3xl"
+              >
+                Send a message
+              </h2>
+              <p className="mt-1.5 text-sm leading-6 text-muted">
+                Share a few details and I&apos;ll get back to you by email.
+              </p>
+            </div>
+
             <div className="space-y-5">
               <div>
                 <label

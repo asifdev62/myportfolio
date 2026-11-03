@@ -1,10 +1,12 @@
 import PageHeader from "./PageHeader";
 import ProjectCard from "./ProjectCard";
 import Reveal from "./Reveal";
-import { projects } from "@/app/data/projects";
+import { latestProjectSlugs, projects } from "@/app/data/projects";
 import { FiArrowUpRight } from "react-icons/fi";
 import { buttonArrow, projectGrid, sectionPadding } from "@/app/lib/styles";
 import { ButtonLink } from "./ui/Button";
+
+const latestSlugs = new Set<string>(latestProjectSlugs);
 
 export default function Projects() {
   return (
@@ -32,7 +34,11 @@ export default function Projects() {
 
         <Reveal group className={projectGrid}>
           {projects.map((project) => (
-            <ProjectCard key={project.slug} project={project} />
+            <ProjectCard
+              key={project.slug}
+              project={project}
+              featured={latestSlugs.has(project.slug)}
+            />
           ))}
         </Reveal>
 
