@@ -85,11 +85,11 @@ export const projects: Project[] = [
     name: "Wanderlust",
     alternateName: "Travel & Destination Booking Platform",
     tagline:
-      "A full-stack travel platform to explore destinations, discover new places, and manage travel bookings with a modern, user-friendly experience.",
+      "A full-stack travel platform to explore destinations, add new places, and manage bookings, with member routes secured by JWT and Next.js Proxy.",
     summary:
-      "A full-stack travel and destination booking platform for exploring destinations, adding new places, and managing travel bookings.",
+      "A full-stack travel and destination booking platform for exploring destinations, adding new places, and managing travel bookings behind JWT-protected routes.",
     overview:
-      "Wanderlust is a full-stack travel web application that helps users discover destinations and manage travel bookings. Visitors can browse destinations from different countries, open detail pages with prices, durations, and descriptions, explore destinations by category such as beaches, mountains, cities, adventure, and culture, add new destinations, and submit bookings through an authenticated account.",
+      "Wanderlust is a full-stack travel web application that helps users discover destinations and manage travel bookings. Visitors can browse destinations from different countries, open detail pages with prices, durations, and descriptions, explore destinations by category such as beaches, mountains, cities, adventure, and culture, add new destinations, and submit bookings through an authenticated account. Better Auth issues the JWTs, Next.js Proxy guards the member routes, and the Express API verifies each token before serving protected data.",
     problem:
       "Trip research and booking details are usually spread across several sites and notes, which makes destinations hard to compare and bookings easy to lose track of. Wanderlust brings discovery and booking into a single interface, with categories for narrowing the options and an account layer that keeps booking information together.",
     features: [
@@ -98,7 +98,10 @@ export const projects: Project[] = [
       "Category-based browsing for beaches, mountains, cities, adventure, and culture",
       "Add new destinations to the platform",
       "Submit travel bookings for a selected destination",
-      "Authentication with Better Auth (sign in / sign up)",
+      "Sign in and sign up with Better Auth (email and password)",
+      "JWT-based authentication for protected resources",
+      "Next.js Proxy checks before protected routes load",
+      "Bearer tokens verified against Better Auth's JWKS on protected API endpoints",
       "Booking management with access to travel booking information",
       "REST API integration with a separate Express.js backend",
       "Destination and booking data stored in MongoDB",
@@ -113,14 +116,17 @@ export const projects: Project[] = [
       "Express.js",
       "MongoDB",
       "Better Auth",
+      "JWT Authentication",
+      "Next.js Proxy",
       "REST API",
     ],
     implementation:
-      "Split across two repositories: a Next.js App Router frontend and an Express.js backend. The frontend renders the home, destination listing, destination detail, add-destination, booking, and authentication views, and reads and writes data through the REST API exposed by the Express server. Destinations and booking records are stored in MongoDB, while Better Auth handles sign-in, sign-up, sessions, and the routes that require an account.",
+      "Split across two repositories: a Next.js App Router frontend and an Express.js backend. The frontend renders the home, destination listing, destination detail, add-destination, booking, and authentication views, and reads and writes data through the REST API exposed by the Express server. Better Auth signs users in and issues JWT access tokens, the frontend attaches them as Bearer headers on mutations and server-side fetches, Next.js Proxy checks the session before protected routes load, and the Express API verifies every token against Better Auth's JWKS with jose before touching MongoDB. Destinations and booking records are stored in MongoDB.",
     decisions: [
       "Separated the frontend and backend into their own repositories so the Next.js UI and the Express API can be developed and deployed independently.",
+      "Used JWT-based authentication with Next.js Proxy for request-level route checks, while keeping the backend responsible for validating tokens on protected endpoints.",
+      "Verified Bearer tokens against Better Auth's remote JWKS instead of sharing a secret, so signing keys can rotate without redeploying the API.",
       "Modelled destinations with country, category, price, duration, departure date, and image fields so the same records power the listing, detail, and booking views.",
-      "Used Better Auth for authentication so booking-related views are only reachable by signed-in users.",
     ],
     liveUrl: "https://wanderlust-gamma-pink.vercel.app/",
     repoUrl: "https://github.com/asifdev62/Wanderlust",
